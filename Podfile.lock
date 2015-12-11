@@ -1,0 +1,19 @@
+PODS:
+  - BEMAnalogClock (1.4)
+  - Charts (2.1.6)
+  - ForecastIO (1.0.3)
+  - INTULocationManager (4.1.1)
+
+DEPENDENCIES:
+  - BEMAnalogClock
+  - Charts
+  - ForecastIO
+  - INTULocationManager
+
+SPEC CHECKSUMS:
+  BEMAnalogClock: 88786eba7763d63abd5a9956c2d1106f30c7f251
+  Charts: 5e1e5ac23898e5b09d226a2fc3e9d86bc281937e
+  ForecastIO: 55b7bf11a7821391bf8502ca11cca861ae437d4e
+  INTULocationManager: 83c7373048d583cda57e25eefb9bb8a3675acf16
+
+COCOAPODS: 0.39.0
