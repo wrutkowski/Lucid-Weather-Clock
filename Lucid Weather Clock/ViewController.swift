@@ -24,7 +24,7 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
 
     private var clockStartDate = NSDate()
     private var clockLoadingAnimationActive = true
-    private var performOnlyOnceTokenValid = true
+    private var clockDisplayedToken = false
 
     private var location: CLLocation!
     private var forecast: Forecast?
@@ -62,16 +62,10 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
         
         configureWatchface()
         
-        if performOnlyOnceTokenValid {
-            performOnlyOnceTokenValid = false
-            UIView.animateWithDuration(2.5) { () -> Void in
-                self.clock.alpha = 1.0
-            }
-        } else {
-            UIView.animateWithDuration(0.5) { () -> Void in
-                self.clock.alpha = 1.0
-            }
+        UIView.animateWithDuration(clockDisplayedToken ? 0.5 : 2.5) { () -> Void in
+            self.clock.alpha = 1.0
         }
+        clockDisplayedToken = true
     }
 
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
@@ -169,7 +163,7 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
         clock.realTime = false
         clock.reloadClock()
 
-        if !performOnlyOnceTokenValid {
+        if clockDisplayedToken {
             UIView.animateWithDuration(2.5) { () -> Void in
                 self.clock.alpha = 1.0
             }
@@ -200,7 +194,9 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     self.updateInfo()
                     self.clockLoadingAnimationActive = false
-                    self.adjustDesignToWeather(currentForecast!) // change to unwrap
+                    if let currentForecast = currentForecast {
+                        self.adjustDesignToWeather(currentForecast)
+                    }
                     
                     self.buttonRefresh.hidden = false
                     self.activityIndicator.stopAnimating()
@@ -247,9 +243,9 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
                 return
             }
 
-            if let plcmrks = placemarks {
-                if plcmrks.count > 0 {
-                    self.placemark = plcmrks[0]
+            if let placemarks = placemarks {
+                if placemarks.count > 0 {
+                    self.placemark = placemarks[0]
                     self.updateInfo()
                 }
             }
@@ -259,7 +255,7 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
     //MARK: - Design
 
     func adjustDesignToWeather(forecast: Forecast) {
-        if let temp = forecast.currently?.apparentTemperature { // change to guard
+        if let temp = forecast.currently?.apparentTemperature {
             print(temp)
 
             labelTemperature.text = "\(Int(round(temp)))°C"
