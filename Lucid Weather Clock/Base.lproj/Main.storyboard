@@ -74,7 +74,7 @@
                                 <rect key="frame" x="43" y="90" width="515" height="515"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="250" id="7O1-Mf-LAx"/>
+                                    <constraint firstAttribute="height" priority="100" constant="250" id="7O1-Mf-LAx"/>
                                     <constraint firstAttribute="width" constant="250" id="eGT-5J-hQA"/>
                                     <constraint firstAttribute="width" secondItem="QgO-W1-TWd" secondAttribute="height" multiplier="1:1" id="wy0-bD-GcU"/>
                                 </constraints>
@@ -89,6 +89,7 @@
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="QgO-W1-TWd" firstAttribute="top" relation="greaterThanOrEqual" secondItem="8bC-Xf-vdC" secondAttribute="top" priority="750" constant="126" id="0F0-e6-T0i">
+                                <variation key="heightClass=compact" constant="26"/>
                                 <variation key="widthClass=regular" constant="40"/>
                             </constraint>
                             <constraint firstItem="QgO-W1-TWd" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="IFq-ag-D66" secondAttribute="trailing" constant="13" id="4wj-Op-WWK"/>
@@ -101,6 +102,7 @@
                             <constraint firstItem="QgO-W1-TWd" firstAttribute="top" secondItem="IFq-ag-D66" secondAttribute="bottom" constant="8" id="Erc-QW-iLL"/>
                             <constraint firstItem="SEx-60-HbC" firstAttribute="leading" secondItem="P6J-Fk-FR7" secondAttribute="trailing" constant="10" id="HGV-ql-0as"/>
                             <constraint firstItem="QgO-W1-TWd" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="22.5" id="IHL-Tg-jcX">
+                                <variation key="heightClass=compact" constant="0.0"/>
                                 <variation key="heightClass=regular" constant="22"/>
                                 <variation key="widthClass=regular" constant="0.0"/>
                             </constraint>
@@ -108,6 +110,7 @@
                             <constraint firstItem="qwE-DP-6BX" firstAttribute="centerX" secondItem="P6J-Fk-FR7" secondAttribute="centerX" id="Ky3-fq-D99"/>
                             <constraint firstItem="QgO-W1-TWd" firstAttribute="leading" secondItem="IFq-ag-D66" secondAttribute="trailing" priority="250" constant="13" id="LP7-AA-H6b"/>
                             <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="QgO-W1-TWd" secondAttribute="bottom" priority="750" constant="127" id="MAc-YE-YiO">
+                                <variation key="heightClass=compact" constant="40"/>
                                 <variation key="widthClass=regular" constant="30"/>
                             </constraint>
                             <constraint firstItem="ien-cj-wev" firstAttribute="centerY" secondItem="QgO-W1-TWd" secondAttribute="centerY" id="MTo-HO-4Uh"/>
@@ -115,6 +118,7 @@
                             <constraint firstItem="IFq-ag-D66" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="N7E-Pf-PX7"/>
                             <constraint firstItem="ien-cj-wev" firstAttribute="height" secondItem="QgO-W1-TWd" secondAttribute="height" id="O3d-US-cop"/>
                             <constraint firstAttribute="trailingMargin" secondItem="QgO-W1-TWd" secondAttribute="trailing" priority="250" constant="397" id="PiS-kL-FaQ">
+                                <variation key="heightClass=compact" constant="20"/>
                                 <variation key="widthClass=regular" constant="20"/>
                             </constraint>
                             <constraint firstAttribute="trailing" secondItem="SEx-60-HbC" secondAttribute="trailing" constant="20" id="bJt-bY-gYK"/>
@@ -150,6 +154,18 @@
                                 <exclude reference="kTi-Db-29w"/>
                                 <exclude reference="nNB-R8-IR3"/>
                                 <exclude reference="uca-Ye-5qd"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=compact">
+                            <mask key="constraints">
+                                <include reference="N7E-Pf-PX7"/>
+                                <include reference="gQt-a5-G0s"/>
+                                <include reference="0F0-e6-T0i"/>
+                                <include reference="4wj-Op-WWK"/>
+                                <include reference="62b-cC-xhM"/>
+                                <include reference="LP7-AA-H6b"/>
+                                <include reference="MAc-YE-YiO"/>
+                                <include reference="PiS-kL-FaQ"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular">

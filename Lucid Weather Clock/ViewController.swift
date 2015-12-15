@@ -55,14 +55,20 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
         chart.rotationAngle = 270.0
     }
 
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        clock.alpha = 0.0
         
         configureWatchface()
         
         if performOnlyOnceTokenValid {
             performOnlyOnceTokenValid = false
             UIView.animateWithDuration(2.5) { () -> Void in
+                self.clock.alpha = 1.0
+            }
+        } else {
+            UIView.animateWithDuration(0.5) { () -> Void in
                 self.clock.alpha = 1.0
             }
         }
@@ -88,9 +94,9 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
     func configureWatchface() {
         clock.enableShadows = true
         clock.faceBackgroundColor = UIColor.clearColor()
-        clock.secondHandLength = 0.25 * clock.frame.width
-        clock.minuteHandLength = 0.22 * clock.frame.width
-        clock.hourHandLength = 0.125 * clock.frame.width
+        clock.secondHandLength = 0.38 * clock.frame.width
+        clock.minuteHandLength = 0.32 * clock.frame.width
+        clock.hourHandLength = 0.175 * clock.frame.width
         clock.reloadClock()
     }
 
@@ -267,6 +273,7 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
 
         if let minutelyData = forecast.minutely?.data {
             var forecastData = [ForecastDataEntry]()
+            var maxPrecipIntensity: Float = 0
             
             for minuteData in minutelyData {
                 if forecastData.count >= 60 {
@@ -287,19 +294,23 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
                     precipProbability = precipProbabilityUnwrap
                 }
                 
+                if precipIntensity > maxPrecipIntensity {
+                    maxPrecipIntensity = precipIntensity
+                }
                 // testing chart rotation
 //                if timeMin == 0 {
 //                    precipIntensity = 100
 //                    precipProbability = 1.0
 //                }
                 
-                precipIntensity = min(precipIntensity * 2.0, 0.9)
+                print("time: \(timeMin), precipProbability: \(precipProbability), precipIntensity: \(precipIntensity) -> \(min(precipIntensity, 0.9))")
+                
+                precipIntensity = min(precipIntensity, 0.9)
                 
                 forecastData.append(ForecastDataEntry(timeMin: timeMin, precipIntensity: precipIntensity, precipProbability: precipProbability))
-                
-                print("time: \(timeMin), precipIntensity: \(precipIntensity), precipProbability: \(precipProbability)")
             }
             
+            labelTemperature.text = labelTemperature.text! + " - \(maxPrecipIntensity)"
             forecastData.sortInPlace { $0.timeMin < $1.timeMin }
             
             var yVals = [ChartDataEntry]()
