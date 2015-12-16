@@ -313,7 +313,7 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
             var colors = [UIColor]()
             
             for forecastEntry in forecastData {
-                yVals.append(ChartDataEntry(value: 0.002777777777, xIndex: forecastEntry.timeMin, data: Double(forecastEntry.precipIntensity))) // 1/360°
+                yVals.append(ChartDataEntry(value: 0.01666666667, xIndex: forecastEntry.timeMin, data: Double(forecastEntry.precipIntensity))) // 6/360°
                 colors.append(UIColor.whiteColor().colorWithAlphaComponent(CGFloat(forecastEntry.precipProbability)))
             }
             
