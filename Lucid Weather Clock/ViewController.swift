@@ -45,6 +45,8 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
         refreshForecast()
         
         chart.descriptionText = ""
+        chart.noDataText = ""
+        chart.noDataTextDescription = ""
         chart.backgroundColor = UIColor.clearColor()
         chart.drawHoleEnabled = false
         chart.drawCenterTextEnabled = false
