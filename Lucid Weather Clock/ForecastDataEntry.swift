@@ -9,7 +9,7 @@
 import Foundation
 
 struct ForecastDataEntry {
-    var timeMin: Int = 0
+    var timeUnit: Int = 0
     var precipIntensity: Float = 0
     var precipProbability: Float = 0
 }

@@ -68,6 +68,14 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
             self.clock.alpha = 1.0
         }
         clockDisplayedToken = true
+        
+        NSNotificationCenter.defaultCenter().addObserver(clock, selector: Selector("reloadClock"), name: UIApplicationDidBecomeActiveNotification, object: nil)
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        NSNotificationCenter.defaultCenter().removeObserver(clock, name: UIApplicationDidBecomeActiveNotification, object: nil)
     }
 
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
@@ -270,69 +278,83 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
         }
 
         if let minutelyData = forecast.minutely?.data {
-            var forecastData = [ForecastDataEntry]()
-            var maxPrecipIntensity: Float = 0
-            
-            for minuteData in minutelyData {
-                if forecastData.count >= 60 {
-                    break
-                }
-                
-                var timeMin: Int = 0
-                var precipIntensity: Float = 0
-                var precipProbability: Float = 0
-                
-                let components = NSCalendar.currentCalendar().components([.Minute], fromDate: minuteData.time)
-                timeMin = components.minute
-
-                if let precipIntensityUnwrap = minuteData.precipIntensity {
-                    precipIntensity = precipIntensityUnwrap
-                }
-                if let precipProbabilityUnwrap = minuteData.precipProbability {
-                    precipProbability = precipProbabilityUnwrap
-                }
-                
-                if precipIntensity > maxPrecipIntensity {
-                    maxPrecipIntensity = precipIntensity
-                }
-                // testing chart rotation
-//                if timeMin == 0 {
-//                    precipIntensity = 100
-//                    precipProbability = 1.0
-//                }
-                
-                print("time: \(timeMin), precipProbability: \(precipProbability), precipIntensity: \(precipIntensity) -> \(min(precipIntensity, 0.9))")
-                
-                precipIntensity = min(precipIntensity, 0.9)
-                
-                forecastData.append(ForecastDataEntry(timeMin: timeMin, precipIntensity: precipIntensity, precipProbability: precipProbability))
-            }
-            
-            labelTemperature.text = labelTemperature.text! + " - \(maxPrecipIntensity)"
-            forecastData.sortInPlace { $0.timeMin < $1.timeMin }
-            
-            var yVals = [ChartDataEntry]()
-            var colors = [UIColor]()
-            
-            for forecastEntry in forecastData {
-                yVals.append(ChartDataEntry(value: 0.01666666667, xIndex: forecastEntry.timeMin, data: Double(forecastEntry.precipIntensity))) // 6/360°
-                colors.append(UIColor.whiteColor().colorWithAlphaComponent(CGFloat(forecastEntry.precipProbability)))
-            }
-            
-            let set = PieChartDataSet(yVals: yVals)
-            set.colors = colors
-            set.drawValuesEnabled = false
-            
-            var xVals = [String]()
-            xVals.append("60")
-            for i in 1..<60 {
-                xVals.append("\(i)")
-            }
-            let data = PieChartData(xVals: xVals, dataSet: set)
-
-            chart.data = data
+            showPieData(minutelyData, minutely: true)
+        } else if let hourlyData = forecast.hourly?.data {
+            showPieData(hourlyData, minutely: false)
         }
 
+    }
+    
+    func showPieData(data: [DataPoint], minutely: Bool = true) {
+        var forecastData = [ForecastDataEntry]()
+        var maxPrecipIntensity: Float = 0
+        
+        for unitData in data {
+            if forecastData.count >= (minutely ? 60 : 12) {
+                break
+            }
+            
+            var timeUnit: Int = 0
+            var precipIntensity: Float = 0
+            var precipProbability: Float = 0
+            
+            let components = NSCalendar.currentCalendar().components([.Hour, .Minute], fromDate: unitData.time)
+            if minutely {
+                timeUnit = components.minute
+            } else {
+                timeUnit = components.hour
+                if timeUnit > 12 {
+                    timeUnit -= 12
+                }
+            }
+            
+            if let precipIntensityUnwrap = unitData.precipIntensity {
+                precipIntensity = precipIntensityUnwrap
+            }
+            if let precipProbabilityUnwrap = unitData.precipProbability {
+                precipProbability = precipProbabilityUnwrap
+            }
+            
+            if precipIntensity > maxPrecipIntensity {
+                maxPrecipIntensity = precipIntensity
+            }
+            // testing chart rotation
+            //                if timeMin == 0 {
+            //                    precipIntensity = 100
+            //                    precipProbability = 1.0
+            //                }
+            
+            print("time: \(timeUnit), precipProbability: \(precipProbability), precipIntensity: \(precipIntensity) -> \(min(precipIntensity, 0.9))")
+            
+            precipIntensity = min(precipIntensity, 0.9)
+            
+            forecastData.append(ForecastDataEntry(timeUnit: timeUnit, precipIntensity: precipIntensity, precipProbability: precipProbability))
+        }
+        
+//        labelTemperature.text = labelTemperature.text! + " - \(maxPrecipIntensity)"
+        forecastData.sortInPlace { $0.timeUnit < $1.timeUnit }
+        
+        var yVals = [ChartDataEntry]()
+        var colors = [UIColor]()
+        
+        let sliceSize: Double = minutely ? 6/360 : 30/360
+        for forecastEntry in forecastData {
+            yVals.append(ChartDataEntry(value: sliceSize, xIndex: forecastEntry.timeUnit, data: Double(forecastEntry.precipIntensity)))
+            colors.append(UIColor.whiteColor().colorWithAlphaComponent(CGFloat(forecastEntry.precipProbability)))
+        }
+        
+        let set = PieChartDataSet(yVals: yVals)
+        set.colors = colors
+        set.drawValuesEnabled = false
+        
+        var xVals = [String]()
+        xVals.append(minutely ? "60" : "12")
+        for i in 1..<(minutely ? 60 : 12) {
+            xVals.append("\(i)")
+        }
+        let data = PieChartData(xVals: xVals, dataSet: set)
+        
+        chart.data = data
     }
 
     func updateInfo() {
