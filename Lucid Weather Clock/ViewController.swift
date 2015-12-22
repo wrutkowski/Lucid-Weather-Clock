@@ -103,6 +103,14 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
             self.clock.alpha = 1.0
         }
     }
+    
+    override func motionEnded(motion: UIEventSubtype, withEvent event: UIEvent?) {
+        if let event = event {
+            if event.subtype == .MotionShake {
+                sharePrecipation()
+            }
+        }
+    }
 
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return .LightContent
@@ -274,7 +282,7 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
                     self.activityIndicator.stopAnimating()
                 })
             } else {
-                print(currentForecast)
+//                print(currentForecast)
 
                 self.forecast = currentForecast
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -457,6 +465,63 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
             }
         } else {
             labelInfo.text = ""
+        }
+    }
+    
+    //MARK - Share
+
+    func captureClockChart() -> UIImage? {
+        var image: UIImage?
+        
+        let imageSize = CGSize(width: clock.bounds.size.width * 1.2, height: clock.bounds.size.height * 1.4)
+        UIGraphicsBeginImageContextWithOptions(imageSize, true, 0.0)
+        if let context = UIGraphicsGetCurrentContext() {
+            // background color
+            view.backgroundColor?.set()
+            CGContextFillRect(UIGraphicsGetCurrentContext(), CGRect(origin: CGPointZero, size: imageSize))
+            
+            // temperature label
+            var offsetX = (imageSize.width - labelTemperature.bounds.size.width)/2
+            var offsetY = imageSize.height * 0.13 - labelTemperature.bounds.size.height/2
+            CGContextTranslateCTM(context, offsetX, offsetY)
+            labelTemperature.layer.renderInContext(context)
+            CGContextTranslateCTM(context, -offsetX, -offsetY)
+            
+            // chart and clock
+            offsetX = imageSize.width * 0.08
+            offsetY = imageSize.height * 0.2
+            CGContextTranslateCTM(context, offsetX, offsetY)
+            chart.layer.renderInContext(context)
+            clock.layer.renderInContext(context)
+            CGContextTranslateCTM(context, -offsetX, -offsetY)
+            
+            // copyright label
+            let copyrightLabel = UILabel(frame: CGRect(x: 0, y: 0, width: imageSize.width, height: 10))
+            copyrightLabel.font = UIFont(name: labelTemperature.font.familyName, size: 8.0)
+            copyrightLabel.textColor = UIColor.whiteColor()
+            copyrightLabel.textAlignment = .Center
+            copyrightLabel.text = "brought by Lucid Weather Clock, data by Forecast.io"
+            offsetX = 0.0
+            offsetY = imageSize.height * 0.98 - copyrightLabel.bounds.size.height/2
+            CGContextTranslateCTM(context, offsetX, offsetY)
+            copyrightLabel.layer.renderInContext(context)
+            CGContextTranslateCTM(context, -offsetX, -offsetY)
+            
+            image = UIGraphicsGetImageFromCurrentImageContext()
+        }
+        UIGraphicsEndImageContext()
+        
+        return image
+    }
+    
+    func sharePrecipation() {
+        if let image = captureClockChart() {
+            var location = ""
+            if let locality = placemark?.locality {
+                location = " @ \(locality)"
+            }
+            let activityVC = UIActivityViewController(activityItems: ["Current precipation\(location) brought by @LucidWeatherClock", image], applicationActivities: nil)
+            presentViewController(activityVC, animated: true, completion: nil)
         }
     }
 }
