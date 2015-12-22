@@ -25,17 +25,23 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
     private var clockStartDate = NSDate()
     private var clockLoadingAnimationActive = true
     private var clockDisplayedToken = false
-
+    private var timerLongPress: NSTimer!
+    private var forceTouchActionActive = false
+    
     private var location: CLLocation!
     private var forecast: Forecast?
     private var placemark: CLPlacemark?
-
+    
+    // DEBUG vars
+    private var maxPrecipIntensity: Float = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = UIColor.lightGrayColor()
 
         clock.delegate = self
+        clock.userInteractionEnabled = false
         labelInfo.text = ""
         labelTemperature.text = ""
         chart.alpha = 0.0
@@ -44,6 +50,7 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
         
         refreshForecast()
         
+        chart.userInteractionEnabled = false
         chart.descriptionText = ""
         chart.noDataText = ""
         chart.noDataTextDescription = ""
@@ -55,6 +62,10 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
         chart.legend.enabled = false
         chart.rotationEnabled = false
         chart.rotationAngle = 270.0
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: Selector("debugInfo"))
+        tapGesture.numberOfTapsRequired = 3
+        view.addGestureRecognizer(tapGesture)
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -69,19 +80,28 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
         }
         clockDisplayedToken = true
         
-        NSNotificationCenter.defaultCenter().addObserver(clock, selector: Selector("reloadClock"), name: UIApplicationDidBecomeActiveNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("viewDidBecomeActive"), name: UIApplicationDidBecomeActiveNotification, object: nil)
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
-        NSNotificationCenter.defaultCenter().removeObserver(clock, name: UIApplicationDidBecomeActiveNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationDidBecomeActiveNotification, object: nil)
     }
 
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
         
         clock.reloadClock()
+    }
+    
+    func viewDidBecomeActive() {
+        clock.alpha = 0.0
+        clock.reloadClock()
+        
+        UIView.animateWithDuration(0.5) { () -> Void in
+            self.clock.alpha = 1.0
+        }
     }
 
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -91,6 +111,62 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    //MARK - Touches
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        if traitCollection.forceTouchCapability == UIForceTouchCapability.Unavailable {
+            if timerLongPress != nil {
+                timerLongPress.invalidate()
+                timerLongPress = nil
+            }
+            timerLongPress = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("showForecastHourly"), userInfo: nil, repeats: false)
+        }
+    }
+    
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        if let touch = touches.first {
+            if traitCollection.forceTouchCapability == UIForceTouchCapability.Available {
+                if touch.maximumPossibleForce / touch.force > 0.5 {
+                    if !forceTouchActionActive {
+                        forceTouchActionActive = true
+                        showForecastHourly()
+                    }
+                } else {
+                    if forceTouchActionActive {
+                        forceTouchActionActive = false
+                        showForecastBest()
+                    }
+                }
+            }
+        }
+    }
+    
+    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+        if timerLongPress != nil {
+            timerLongPress.invalidate()
+            timerLongPress = nil
+        }
+        showForecastBest()
+    }
+    
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        if timerLongPress != nil {
+            timerLongPress.invalidate()
+            timerLongPress = nil
+        }
+        
+        showForecastBest()
+    }
+    
+    //MARK - Debug
+    
+    func debugInfo() {
+        let okButton = UIAlertAction(title: "OK", style: .Default, handler: nil)
+        let alert = UIAlertController(title: "DEBUG", message: "Max precip intensity: \(maxPrecipIntensity)", preferredStyle: .Alert)
+        alert.addAction(okButton)
+        self.presentViewController(alert, animated: true, completion: nil)
     }
 
     //MARK - Clock configuration
@@ -214,6 +290,26 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
             }
         }
     }
+    
+    func showForecastHourly() {
+        if let hourlyData = forecast?.hourly?.data {
+            showPieData(hourlyData, minutely: false)
+        }
+    }
+    
+    func showForecastMinutely() {
+        if let minutelyData = forecast?.minutely?.data {
+            showPieData(minutelyData, minutely: true)
+        }
+    }
+    
+    func showForecastBest() {
+        if let minutelyData = forecast?.minutely?.data {
+            showPieData(minutelyData, minutely: true)
+        } else if let hourlyData = forecast?.hourly?.data {
+            showPieData(hourlyData, minutely: false)
+        }
+    }
 
     //MARK: - Location
 
@@ -277,17 +373,11 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
             })
         }
 
-        if let minutelyData = forecast.minutely?.data {
-            showPieData(minutelyData, minutely: true)
-        } else if let hourlyData = forecast.hourly?.data {
-            showPieData(hourlyData, minutely: false)
-        }
-
+        showForecastBest()
     }
     
     func showPieData(data: [DataPoint], minutely: Bool = true) {
         var forecastData = [ForecastDataEntry]()
-        var maxPrecipIntensity: Float = 0
         
         for unitData in data {
             if forecastData.count >= (minutely ? 60 : 12) {
@@ -318,20 +408,14 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
             if precipIntensity > maxPrecipIntensity {
                 maxPrecipIntensity = precipIntensity
             }
-            // testing chart rotation
-            //                if timeMin == 0 {
-            //                    precipIntensity = 100
-            //                    precipProbability = 1.0
-            //                }
             
-            print("time: \(timeUnit), precipProbability: \(precipProbability), precipIntensity: \(precipIntensity) -> \(min(precipIntensity, 0.9))")
+            //print("time: \(timeUnit), precipProbability: \(precipProbability), precipIntensity: \(precipIntensity) -> \(min(precipIntensity, 0.9))")
             
             precipIntensity = min(precipIntensity, 0.9)
             
             forecastData.append(ForecastDataEntry(timeUnit: timeUnit, precipIntensity: precipIntensity, precipProbability: precipProbability))
         }
         
-//        labelTemperature.text = labelTemperature.text! + " - \(maxPrecipIntensity)"
         forecastData.sortInPlace { $0.timeUnit < $1.timeUnit }
         
         var yVals = [ChartDataEntry]()
