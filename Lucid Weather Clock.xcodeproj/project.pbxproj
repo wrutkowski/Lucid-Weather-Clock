@@ -1,0 +1,388 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4F56B4871C1AFE2C003687AC /* ForecastDataEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F56B4861C1AFE2C003687AC /* ForecastDataEntry.swift */; };
+		4F8E221F1C15D3160083245B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8E221E1C15D3160083245B /* AppDelegate.swift */; };
+		4F8E22211C15D3160083245B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8E22201C15D3160083245B /* ViewController.swift */; };
+		4F8E22241C15D3160083245B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F8E22221C15D3160083245B /* Main.storyboard */; };
+		4F8E22261C15D3160083245B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F8E22251C15D3160083245B /* Assets.xcassets */; };
+		4F8E22291C15D3160083245B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F8E22271C15D3160083245B /* LaunchScreen.storyboard */; };
+		5B6D54DB1C17A7BA00766ECB /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6D54DA1C17A7BA00766ECB /* ColorManager.swift */; };
+		AB68EED5533585D36343475C /* Pods_Lucid_Weather_Clock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCCDB696B216167411B3FC1B /* Pods_Lucid_Weather_Clock.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		4F56B4861C1AFE2C003687AC /* ForecastDataEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForecastDataEntry.swift; sourceTree = "<group>"; };
+		4F8E221B1C15D3160083245B /* Lucid Weather Clock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Lucid Weather Clock.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F8E221E1C15D3160083245B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		4F8E22201C15D3160083245B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		4F8E22231C15D3160083245B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		4F8E22251C15D3160083245B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4F8E22281C15D3160083245B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		4F8E222A1C15D3160083245B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4F8E22341C15E1190083245B /* Lucid Weather Clock-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Lucid Weather Clock-Bridging-Header.h"; sourceTree = "<group>"; };
+		5B6D54DA1C17A7BA00766ECB /* ColorManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorManager.swift; sourceTree = "<group>"; };
+		A91D3595D89FC47886A33CA0 /* Pods-Lucid Weather Clock.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lucid Weather Clock.release.xcconfig"; path = "Pods/Target Support Files/Pods-Lucid Weather Clock/Pods-Lucid Weather Clock.release.xcconfig"; sourceTree = "<group>"; };
+		AFDA9D939974F6AE312AE389 /* Pods-Lucid Weather Clock.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lucid Weather Clock.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Lucid Weather Clock/Pods-Lucid Weather Clock.debug.xcconfig"; sourceTree = "<group>"; };
+		BCCDB696B216167411B3FC1B /* Pods_Lucid_Weather_Clock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Lucid_Weather_Clock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4F8E22181C15D3160083245B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB68EED5533585D36343475C /* Pods_Lucid_Weather_Clock.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4F8E22121C15D3160083245B = {
+			isa = PBXGroup;
+			children = (
+				4F8E221D1C15D3160083245B /* Lucid Weather Clock */,
+				4F8E221C1C15D3160083245B /* Products */,
+				588896D80EFC75788F8FDABB /* Pods */,
+				D33B680D057938487F9D71D2 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		4F8E221C1C15D3160083245B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4F8E221B1C15D3160083245B /* Lucid Weather Clock.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4F8E221D1C15D3160083245B /* Lucid Weather Clock */ = {
+			isa = PBXGroup;
+			children = (
+				4F8E221E1C15D3160083245B /* AppDelegate.swift */,
+				4F8E22201C15D3160083245B /* ViewController.swift */,
+				5B6D54DA1C17A7BA00766ECB /* ColorManager.swift */,
+				4F56B4861C1AFE2C003687AC /* ForecastDataEntry.swift */,
+				4F8E22221C15D3160083245B /* Main.storyboard */,
+				4F8E22251C15D3160083245B /* Assets.xcassets */,
+				4F8E22271C15D3160083245B /* LaunchScreen.storyboard */,
+				4F8E222A1C15D3160083245B /* Info.plist */,
+				4F8E22341C15E1190083245B /* Lucid Weather Clock-Bridging-Header.h */,
+			);
+			path = "Lucid Weather Clock";
+			sourceTree = "<group>";
+		};
+		588896D80EFC75788F8FDABB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				AFDA9D939974F6AE312AE389 /* Pods-Lucid Weather Clock.debug.xcconfig */,
+				A91D3595D89FC47886A33CA0 /* Pods-Lucid Weather Clock.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		D33B680D057938487F9D71D2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BCCDB696B216167411B3FC1B /* Pods_Lucid_Weather_Clock.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4F8E221A1C15D3160083245B /* Lucid Weather Clock */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4F8E222D1C15D3160083245B /* Build configuration list for PBXNativeTarget "Lucid Weather Clock" */;
+			buildPhases = (
+				C74F0E00BE605926801A590C /* Check Pods Manifest.lock */,
+				4F8E22171C15D3160083245B /* Sources */,
+				4F8E22181C15D3160083245B /* Frameworks */,
+				4F8E22191C15D3160083245B /* Resources */,
+				623F0B84201A95F00BAA070F /* Embed Pods Frameworks */,
+				2EBEB2B6B1547D21DC92F26C /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Lucid Weather Clock";
+			productName = "Lucid Weather Clock";
+			productReference = 4F8E221B1C15D3160083245B /* Lucid Weather Clock.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4F8E22131C15D3160083245B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0710;
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = "Wojciech Rutkowski";
+				TargetAttributes = {
+					4F8E221A1C15D3160083245B = {
+						CreatedOnToolsVersion = 7.1;
+					};
+				};
+			};
+			buildConfigurationList = 4F8E22161C15D3160083245B /* Build configuration list for PBXProject "Lucid Weather Clock" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 4F8E22121C15D3160083245B;
+			productRefGroup = 4F8E221C1C15D3160083245B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4F8E221A1C15D3160083245B /* Lucid Weather Clock */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		4F8E22191C15D3160083245B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F8E22291C15D3160083245B /* LaunchScreen.storyboard in Resources */,
+				4F8E22261C15D3160083245B /* Assets.xcassets in Resources */,
+				4F8E22241C15D3160083245B /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2EBEB2B6B1547D21DC92F26C /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Lucid Weather Clock/Pods-Lucid Weather Clock-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		623F0B84201A95F00BAA070F /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Lucid Weather Clock/Pods-Lucid Weather Clock-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C74F0E00BE605926801A590C /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4F8E22171C15D3160083245B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5B6D54DB1C17A7BA00766ECB /* ColorManager.swift in Sources */,
+				4F56B4871C1AFE2C003687AC /* ForecastDataEntry.swift in Sources */,
+				4F8E22211C15D3160083245B /* ViewController.swift in Sources */,
+				4F8E221F1C15D3160083245B /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		4F8E22221C15D3160083245B /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4F8E22231C15D3160083245B /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		4F8E22271C15D3160083245B /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4F8E22281C15D3160083245B /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		4F8E222B1C15D3160083245B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4F8E222C1C15D3160083245B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		4F8E222E1C15D3160083245B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AFDA9D939974F6AE312AE389 /* Pods-Lucid Weather Clock.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				INFOPLIST_FILE = "Lucid Weather Clock/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.wojciech-rutkowski.Lucid-Weather-Clock";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Lucid Weather Clock/Lucid Weather Clock-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		4F8E222F1C15D3160083245B /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A91D3595D89FC47886A33CA0 /* Pods-Lucid Weather Clock.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				INFOPLIST_FILE = "Lucid Weather Clock/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.wojciech-rutkowski.Lucid-Weather-Clock";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Lucid Weather Clock/Lucid Weather Clock-Bridging-Header.h";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4F8E22161C15D3160083245B /* Build configuration list for PBXProject "Lucid Weather Clock" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4F8E222B1C15D3160083245B /* Debug */,
+				4F8E222C1C15D3160083245B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4F8E222D1C15D3160083245B /* Build configuration list for PBXNativeTarget "Lucid Weather Clock" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4F8E222E1C15D3160083245B /* Debug */,
+				4F8E222F1C15D3160083245B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 4F8E22131C15D3160083245B /* Project object */;
+}
