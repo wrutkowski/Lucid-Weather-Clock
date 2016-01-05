@@ -1,19 +1,38 @@
 PODS:
   - BEMAnalogClock (1.4)
   - Charts (2.1.6)
-  - ForecastIO (1.0.3)
+  - ForecastIO (1.2.7)
   - INTULocationManager (4.1.1)
 
 DEPENDENCIES:
-  - BEMAnalogClock
-  - Charts
-  - ForecastIO
+  - BEMAnalogClock (from `https://wrutkowski@github.com/wrutkowski/BEMAnalogClock.git`)
+  - Charts (from `https://wrutkowski@github.com/wrutkowski/ios-charts.git`)
+  - ForecastIO (from `https://github.com/wrutkowski/ForecastIO.git`)
   - INTULocationManager
+
+EXTERNAL SOURCES:
+  BEMAnalogClock:
+    :git: https://wrutkowski@github.com/wrutkowski/BEMAnalogClock.git
+  Charts:
+    :git: https://wrutkowski@github.com/wrutkowski/ios-charts.git
+  ForecastIO:
+    :git: https://github.com/wrutkowski/ForecastIO.git
+
+CHECKOUT OPTIONS:
+  BEMAnalogClock:
+    :commit: 104b5aa2401503674318e2e96446e4fed002742d
+    :git: https://wrutkowski@github.com/wrutkowski/BEMAnalogClock.git
+  Charts:
+    :commit: ef0afff242d3984f3a1d4cbce7aa63f74c151422
+    :git: https://wrutkowski@github.com/wrutkowski/ios-charts.git
+  ForecastIO:
+    :commit: 349b06a056acf6a5d24c11f2dcff8b0d37a0a177
+    :git: https://github.com/wrutkowski/ForecastIO.git
 
 SPEC CHECKSUMS:
   BEMAnalogClock: 88786eba7763d63abd5a9956c2d1106f30c7f251
   Charts: 5e1e5ac23898e5b09d226a2fc3e9d86bc281937e
-  ForecastIO: 55b7bf11a7821391bf8502ca11cca861ae437d4e
+  ForecastIO: 06f5dd36d82f8c8313a334228b63182cceb861f1
   INTULocationManager: 83c7373048d583cda57e25eefb9bb8a3675acf16
 
 COCOAPODS: 0.39.0

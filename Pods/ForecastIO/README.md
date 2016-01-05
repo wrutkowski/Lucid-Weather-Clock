@@ -1,8 +1,13 @@
 # ForecastIO
 
+[![CI Status](http://img.shields.io/travis/Satyam Ghodasara/ForecastIO.svg?style=flat)](https://travis-ci.org/Satyam Ghodasara/ForecastIO)
+[![Version](https://img.shields.io/cocoapods/v/ForecastIO.svg?style=flat)](http://cocoapods.org/pods/ForecastIO)
+[![License](https://img.shields.io/cocoapods/l/ForecastIO.svg?style=flat)](http://cocoapods.org/pods/ForecastIO)
+[![Platform](https://img.shields.io/cocoapods/p/ForecastIO.svg?style=flat)](http://cocoapods.org/pods/ForecastIO)
+
 ## Requirements
 
-ForecastIO requires iOS 8.0 or later.
+To use ForecastIO, all you need is an API key for the [Dark Sky API](https://developer.forecast.io/).
 
 ## Installation
 
@@ -13,41 +18,51 @@ it, simply add the following line to your Podfile:
 pod "ForecastIO"
 ```
 
+## Documentation
+
+The full documentation for ForecastIO is available on [CocoaDocs](http://cocoadocs.org/docsets/ForecastIO).
+
 ## Usage
 
-To use ForecastIO, first initialize the APIClient:
+First, create an `APIClient` with your API key.
 
 ```swift
 import ForecastIO
 ...
-let forecastClient = APIClient(apiKey: YOUR_API_KEY)
+let forecastIOClient = APIClient(apiKey: "YOUR_API_KEY_HERE")
 ```
 
-The ForecastIO API client only has two public methods, so it's simple and easy to use. The first method gets the current forecast for a given latitude and longitude:
+You can choose units that you want Forecast responds with
 
 ```swift
-forecastClient.getForecast(latitude: myLat, longitude: myLon) { (currentForecast, error) -> Void in
-    if err != nil {
-        //  Uh-oh! We have an error!
-    } else {
-        //  Do something with the currentForecast
-    }
+...
+forecastIOClient.units = .SI
+...
+```
+
+With the `APIClient`, you can make two kinds of requests. The first will get the current `Forecast` for a particular location:
+
+```swift
+forecastIOClient.getForecast(latitude: myLat, longitude: myLon) { (currentForecast, error) -> Void in
+  if let currentForecast = currentForecast {
+    //  We got the current forecast!
+  } else if let error = error {
+    //  Uh-oh we have an error!
+  }
 }
 ```
 
-The second method gets the forecast at a given time (past, present, or future) for a given latitude and longitude:
+The second kind of request will get a `Forecast` for a particular location at a particular time:
 
 ```swift
-forecastClient.getForecast(latitude: myLat, longitude: myLon, time: myTime) { (forecast, error) -> Void in
-    if err != nil {
-        //  Uh-oh! We have an error!
-    } else {
-        //  Do something with the forecast
-    }
+forecastIOClient.getForecast(latitude: myLat, longitude: myLon, time: myTime) { (forecast, error) -> Void in
+  if let forecast = forecast {
+    //  We got the forecast!
+  } else if let error = error {
+    //  Uh-oh we have an error!
+  }
 }
 ```
-
-ForecastIO supports all models described by the [Dark Sky API](https://developer.forecast.io/docs/v2). This includes forecasts, data blocks, data points, alerts, and flags. For more details on the implementations of the models' properties, check the files located in [ForecastIO/Pod/Classes](https://github.com/sghodas/ForecastIO/tree/master/Pod/Classes).
 
 ## Author
 

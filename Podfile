@@ -5,10 +5,10 @@ use_frameworks!
 
 target 'Lucid Weather Clock' do
 
-pod 'ForecastIO'
-pod 'BEMAnalogClock'
+pod 'ForecastIO', :git => 'https://github.com/wrutkowski/ForecastIO.git'
+pod 'BEMAnalogClock', :git => 'https://wrutkowski@github.com/wrutkowski/BEMAnalogClock.git'
+pod 'Charts', :git => 'https://wrutkowski@github.com/wrutkowski/ios-charts.git'
 pod 'INTULocationManager'
-pod 'Charts'
 
 end
 

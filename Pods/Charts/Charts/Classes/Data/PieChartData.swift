@@ -51,10 +51,10 @@ public class PieChartData: ChartData
     
     public override func getDataSetByIndex(index: Int) -> ChartDataSet?
     {
-//        if (index != 0)
-//        {
-//            return nil
-//        }
+        if (index != 0)
+        {
+            return nil
+        }
         return super.getDataSetByIndex(index)
     }
     
