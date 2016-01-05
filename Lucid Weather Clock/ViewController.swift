@@ -270,6 +270,7 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
 
     func fetchForecast() {
         let forecastClient = APIClient(apiKey: "FORECAST_API_KEY")
+        forecastClient.units = .SI
         forecastClient.getForecast(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude) { (currentForecast, error) -> Void in
             if error != nil {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in

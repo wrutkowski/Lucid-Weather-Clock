@@ -93,10 +93,8 @@ public class PieChartRenderer: ChartDataRendererBase
                     }
                     let endAngle = startAngle + sweepAngle
                     
-//                    print("radius: \(_chart.radius)\tstartAngle: \(startAngle)\tendAngle: \(endAngle)")
                     if let radiusRatio = e.data as? Double {
                         radius = _chart.radius * CGFloat(radiusRatio)
-//                        print("   \\- radiusRatio: \(radiusRatio), new radius: \(radius)")
                     }
                     
                     let path = CGPathCreateMutable()
@@ -334,7 +332,7 @@ public class PieChartRenderer: ChartDataRendererBase
                 angle = rotationAngle + absoluteAngles[xIndex - 1]
             }
             
-            angle *= _animator.phaseY
+            angle *= _animator.phaseX
             
             let sliceDegrees = drawAngles[xIndex]
             

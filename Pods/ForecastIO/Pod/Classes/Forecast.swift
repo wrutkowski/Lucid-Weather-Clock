@@ -8,23 +8,50 @@
 
 import Foundation
 
+/// The weather data for a location at a specific time.
 public struct Forecast {
-    //  Metadata
+    /// MARK: - Metadata
+    
+    /// The requested latitude.
     public let latitude: Float
+    
+    /// The requested longitude.
     public let longitude: Float
+    
+    /// The IANA timezone name for the requested location (e.g. "America/New_York"). Rely on local user settings over this property.
     public let timezone: String
+    
+    /// The current timezone offset in hours from GMT.
     public let offset: Int?
     
-    //  Forecast data
-    public let currently: DataPoint?
-    public let minutely: DataBlock? //  Ideally has data for the next hour
-    public let hourly: DataBlock?   //  Ideally has data for the next two days
-    public let daily: DataBlock?    //  Ideally has data for the next week
-    
+    /// Severe weather `Alert`s issued by a governmental weather authority for the requested location.
     public let alerts: Array<Alert>?
+    
+    /// Metadata for the request.
     public let flags: Flag?
     
-    init(fromJSON json: NSDictionary) {
+    /// MARK: - Forecast data
+    
+    /// The current weather conditions at the requested location.
+    public let currently: DataPoint?
+    
+    /// The minute-by-minute weather conditions at the requested location for the next hour aligned to the nearest minute.
+    public let minutely: DataBlock?
+    
+    /// The hourly weather conditions at the requested location for the next two days aligned to the top of the hour.
+    public let hourly: DataBlock?
+    
+    /// The daily weather conditions at the requested location for the next week aligned to midnight of the day.
+    public let daily: DataBlock?
+    
+    /**
+        Creates a new `Forecast` from a JSON object.
+     
+        - parameter fromJSON: A JSON object with keys corresponding to the `Forecast`'s properties.
+     
+        - returns: A new `Forecast` filled with data from the given JSON object.
+     */
+    public init(fromJSON json: NSDictionary) {
         latitude = json["latitude"] as! Float
         longitude = json["longitude"] as! Float
         timezone = json["timezone"] as! String
