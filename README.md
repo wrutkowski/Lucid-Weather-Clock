@@ -6,6 +6,10 @@ Lucid Weather Clock is a hyper-local weather app with precipitation clock develo
 
 First post describing the idea and first stage is available on [Medium](https://medium.com/@wrutkowski/lucid-weather-clock-954f6ce8bd0e)
 
+# Demo
+
+![App Demo](http://i.giphy.com/mcmrs3ArwawE0.gif)
+
 # License
 
 Code is released under MIT License (MIT)
