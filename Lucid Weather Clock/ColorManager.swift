@@ -37,7 +37,7 @@ class ColorManager {
     static func convertTemperatureToColor(temp: Float) -> Color {
         var color = Color(r: 0, g: 0, b: 0)
         
-        for var i = 0; i < colorMap.count; i++ {
+        for i in 0 ..< colorMap.count {
             if temp <= colorMap[i].temp {
                 if i > 0 {
                     let bottomColorMap = colorMap[i - 1]

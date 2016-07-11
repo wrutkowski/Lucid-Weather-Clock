@@ -63,7 +63,7 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
         chart.rotationEnabled = false
         chart.rotationAngle = 270.0
         
-        let tapGesture = UITapGestureRecognizer(target: self, action: Selector("debugInfo"))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ViewController.debugInfo))
         tapGesture.numberOfTapsRequired = 3
         view.addGestureRecognizer(tapGesture)
     }
@@ -80,7 +80,7 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
         }
         clockDisplayedToken = true
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("viewDidBecomeActive"), name: UIApplicationDidBecomeActiveNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.viewDidBecomeActive), name: UIApplicationDidBecomeActiveNotification, object: nil)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -129,7 +129,7 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
                 timerLongPress.invalidate()
                 timerLongPress = nil
             }
-            timerLongPress = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("showForecastHourly"), userInfo: nil, repeats: false)
+            timerLongPress = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(ViewController.showForecastHourly), userInfo: nil, repeats: false)
         }
     }
     
@@ -212,7 +212,7 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
             clock.seconds = components.second
             clock.updateTimeAnimated(false)
 
-            self.performSelector(Selector("clockLoadingTick"), withObject: nil, afterDelay: 0.01)
+            self.performSelector(#selector(ViewController.clockLoadingTick), withObject: nil, afterDelay: 0.01)
         } else {
             clock.hours = 12
             clock.minutes = 0
