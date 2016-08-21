@@ -25,7 +25,7 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
     private var clockStartDate = NSDate()
     private var clockLoadingAnimationActive = true
     private var clockDisplayedToken = false
-    private var timerLongPress: NSTimer!
+    private var timerLongPress: NSTimer?
     private var forceTouchActionActive = false
     
     private var location: CLLocation!
@@ -66,6 +66,8 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
         let tapGesture = UITapGestureRecognizer(target: self, action: Selector("debugInfo"))
         tapGesture.numberOfTapsRequired = 3
         view.addGestureRecognizer(tapGesture)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("viewDidBecomeActive"), name: UIApplicationDidBecomeActiveNotification, object: nil)
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -79,14 +81,6 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
             self.clock.alpha = 1.0
         }
         clockDisplayedToken = true
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("viewDidBecomeActive"), name: UIApplicationDidBecomeActiveNotification, object: nil)
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationDidBecomeActiveNotification, object: nil)
     }
 
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
@@ -105,22 +99,14 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
     }
     
     override func motionEnded(motion: UIEventSubtype, withEvent event: UIEvent?) {
-        if let event = event {
-            if event.subtype == .MotionShake {
-                sharePrecipation()
-            }
-        }
+        guard let event = event where event.subtype = .MotionShake else { return }
+        sharePrecipation()
     }
 
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return .LightContent
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     //MARK - Touches
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -134,38 +120,33 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
     }
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        if let touch = touches.first {
-            if traitCollection.forceTouchCapability == UIForceTouchCapability.Available {
-                if touch.maximumPossibleForce / touch.force > 0.5 {
-                    if !forceTouchActionActive {
-                        forceTouchActionActive = true
-                        showForecastHourly()
-                    }
-                } else {
-                    if forceTouchActionActive {
-                        forceTouchActionActive = false
-                        showForecastBest()
-                    }
-                }
+        guard let touch = touches.first where traitCollection.forceTouchCapability == .Available else { return }
+        if touch.maximumPossibleForce / touch.force > 0.5 {
+            if !forceTouchActionActive {
+                forceTouchActionActive = true
+                showForecastHourly()
+            }
+        } else {
+            if forceTouchActionActive {
+                forceTouchActionActive = false
+                showForecastBest()
             }
         }
     }
     
     override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
-        if timerLongPress != nil {
-            timerLongPress.invalidate()
-            timerLongPress = nil
-        }
+        removeTimer()
         showForecastBest()
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        if timerLongPress != nil {
-            timerLongPress.invalidate()
-            timerLongPress = nil
-        }
-        
+        removeTimer()
         showForecastBest()
+    }
+    
+    private func removeTimer() {
+        guard let timerLongPress = timerLongPress else { return }
+        timerLongPress.invalidate()
     }
     
     //MARK - Debug
