@@ -111,27 +111,16 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if traitCollection.forceTouchCapability == UIForceTouchCapability.Unavailable {
-            if timerLongPress != nil {
-                timerLongPress.invalidate()
-                timerLongPress = nil
-            }
+            removeTimer()
             timerLongPress = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("showForecastHourly"), userInfo: nil, repeats: false)
         }
     }
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         guard let touch = touches.first where traitCollection.forceTouchCapability == .Available else { return }
-        if touch.maximumPossibleForce / touch.force > 0.5 {
-            if !forceTouchActionActive {
-                forceTouchActionActive = true
-                showForecastHourly()
-            }
-        } else {
-            if forceTouchActionActive {
-                forceTouchActionActive = false
-                showForecastBest()
-            }
-        }
+        
+        forceTouchActionActive && touch.maximumPossibleForce / touch.force > 0.5 ? showForecastHourly() : showForecastBest()
+        forceTouchActionActive = !forceTouchActionActive
     }
     
     override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
@@ -161,6 +150,7 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
     //MARK - Clock configuration
 
     func configureWatchface() {
+        // TODO abstract this into a separate file for styling the clock
         clock.enableShadows = true
         clock.faceBackgroundColor = UIColor.clearColor()
         clock.secondHandLength = 0.38 * clock.frame.width
