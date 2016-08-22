@@ -63,11 +63,11 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
         chart.rotationEnabled = false
         chart.rotationAngle = 270.0
         
-        let tapGesture = UITapGestureRecognizer(target: self, action: Selector("debugInfo"))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ViewController.debugInfo))
         tapGesture.numberOfTapsRequired = 3
         view.addGestureRecognizer(tapGesture)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("viewDidBecomeActive"), name: UIApplicationDidBecomeActiveNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.viewDidBecomeActive), name: UIApplicationDidBecomeActiveNotification, object: nil)
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -99,7 +99,7 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
     }
     
     override func motionEnded(motion: UIEventSubtype, withEvent event: UIEvent?) {
-        guard let event = event where event.subtype = .MotionShake else { return }
+        guard let event = event where event.subtype == .MotionShake else { return }
         sharePrecipation()
     }
 
@@ -112,7 +112,7 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if traitCollection.forceTouchCapability == UIForceTouchCapability.Unavailable {
             removeTimer()
-            timerLongPress = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("showForecastHourly"), userInfo: nil, repeats: false)
+            timerLongPress = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(ViewController.showForecastHourly), userInfo: nil, repeats: false)
         }
     }
     
@@ -183,7 +183,7 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
             clock.seconds = components.second
             clock.updateTimeAnimated(false)
 
-            self.performSelector(Selector("clockLoadingTick"), withObject: nil, afterDelay: 0.01)
+            self.performSelector(#selector(ViewController.clockLoadingTick), withObject: nil, afterDelay: 0.01)
         } else {
             clock.hours = 12
             clock.minutes = 0
