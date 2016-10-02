@@ -1,0 +1,4 @@
+language: objective-c
+osx_image: xcode8
+script:
+  - xcodebuild -scheme Lucid\ Weather\ Clock -workspace Lucid\ Weather\ Clock.xcworkspace -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 7 Plus,OS=10.0' build
