@@ -1,6 +1,6 @@
 ![Lucid Weather Clock - Icon](https://raw.githubusercontent.com/wrutkowski/Lucid-Weather-Clock/master/Assets/LWC-icon-rounded.png)
 
-# Lucid Weather Clock ☀️🕑
+# Lucid Weather Clock ☀️🕑 [![Build Status](https://travis-ci.org/wrutkowski/Lucid-Weather-Clock.svg?branch=master)](https://travis-ci.org/wrutkowski/Lucid-Weather-Clock)
 
 Lucid Weather Clock is a hyper-local weather app with precipitation clock developed in Swift.
 
