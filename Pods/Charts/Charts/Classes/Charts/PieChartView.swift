@@ -8,23 +8,58 @@
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 import Foundation
-import UIKit
+import CoreGraphics
+
+#if !os(OSX)
+    import UIKit
+#endif
 
 /// View that represents a pie chart. Draws cake like slices.
-public class PieChartView: PieRadarChartViewBase
+open class PieChartView: PieRadarChartViewBase
 {
     /// rect object that represents the bounds of the piechart, needed for drawing the circle
     private var _circleBox = CGRect()
+    
+    private var _drawXLabelsEnabled = true
     
     /// array that holds the width of each pie-slice in degrees
     private var _drawAngles = [CGFloat]()
     
     /// array that holds the absolute angle in degrees of each slice
     private var _absoluteAngles = [CGFloat]()
+    
+    /// if true, the hole inside the chart will be drawn
+    private var _drawHoleEnabled = true
+    
+    private var _holeColor: NSUIColor? = NSUIColor.white
+    
+    /// if true, the hole will see-through to the inner tips of the slices
+    private var _drawSlicesUnderHoleEnabled = false
+    
+    /// if true, the values inside the piechart are drawn as percent values
+    private var _usePercentValuesEnabled = false
+    
+    /// variable for the text that is drawn in the center of the pie-chart
+    private var _centerAttributedText: NSAttributedString?
+    
+    /// indicates the size of the hole in the center of the piechart
+    ///
+    /// **default**: `0.5`
+    private var _holeRadiusPercent = CGFloat(0.5)
+    
+    private var _transparentCircleColor: NSUIColor? = NSUIColor(white: 1.0, alpha: 105.0/255.0)
+    
+    /// the radius of the transparent circle next to the chart-hole in the center
+    private var _transparentCircleRadiusPercent = CGFloat(0.55)
+    
+    /// if enabled, centertext is drawn
+    private var _drawCenterTextEnabled = true
+    
+    private var _centerTextRadiusPercent: CGFloat = 1.0
     
     /// maximum angle for this pie
     private var _maxAngle: CGFloat = 360.0
@@ -44,18 +79,19 @@ public class PieChartView: PieRadarChartViewBase
         super.initialize()
         
         renderer = PieChartRenderer(chart: self, animator: _animator, viewPortHandler: _viewPortHandler)
+        _xAxis = nil
     }
     
-    public override func drawRect(rect: CGRect)
+    open override func draw(_ rect: CGRect)
     {
-        super.drawRect(rect)
+        super.draw(rect)
         
         if _data === nil
         {
             return
         }
         
-        let optionalContext = UIGraphicsGetCurrentContext()
+        let optionalContext = NSUIGraphicsGetCurrentContext()
         guard let context = optionalContext else { return }
         
         renderer!.drawData(context: context)
@@ -101,19 +137,17 @@ public class PieChartView: PieRadarChartViewBase
     
     internal override func calcMinMax()
     {
-        super.calcMinMax()
-        
         calcAngles()
     }
     
-    public override func getMarkerPosition(entry e: ChartDataEntry, highlight: ChartHighlight) -> CGPoint
+    open override func getMarkerPosition(entry e: ChartDataEntry, highlight: ChartHighlight) -> CGPoint
     {
         let center = self.centerCircleBox
         var r = self.radius
         
         var off = r / 10.0 * 3.6
         
-        if self.isDrawHoleEnabled
+        if self.drawHoleEnabled
         {
             off = (r - (r * self.holeRadiusPercent)) / 2.0
         }
@@ -140,21 +174,27 @@ public class PieChartView: PieRadarChartViewBase
         _drawAngles = [CGFloat]()
         _absoluteAngles = [CGFloat]()
         
-        _drawAngles.reserveCapacity(_data.yValCount)
-        _absoluteAngles.reserveCapacity(_data.yValCount)
+        guard let data = _data else { return }
+
+        _drawAngles.reserveCapacity(data.yValCount)
+        _absoluteAngles.reserveCapacity(data.yValCount)
         
-        var dataSets = _data.dataSets
+        let yValueSum = (_data as! PieChartData).yValueSum
+        
+        var dataSets = data.dataSets
 
         var cnt = 0
 
-        for (var i = 0; i < _data.dataSetCount; i++)
+        for i in 0 ..< data.dataSetCount
         {
             let set = dataSets[i]
-            var entries = set.yVals
+            let entryCount = set.entryCount
 
-            for (var j = 0; j < entries.count; j++)
+            for j in 0 ..< entryCount
             {
-                _drawAngles.append(calcAngle(abs(entries[j].value)))
+                guard let e = set.entryForIndex(j) else { continue }
+                
+                _drawAngles.append(calcAngle(abs(e.value), yValueSum: yValueSum))
 
                 if (cnt == 0)
                 {
@@ -165,13 +205,13 @@ public class PieChartView: PieRadarChartViewBase
                     _absoluteAngles.append(_absoluteAngles[cnt - 1] + _drawAngles[cnt])
                 }
 
-                cnt++
+                cnt += 1
             }
         }
     }
     
     /// checks if the given index in the given DataSet is set for highlighting or not
-    public func needsHighlight(xIndex xIndex: Int, dataSetIndex: Int) -> Bool
+    open func needsHighlight(xIndex: Int, dataSetIndex: Int) -> Bool
     {
         // no highlight
         if (!valuesToHighlight() || dataSetIndex < 0)
@@ -179,7 +219,7 @@ public class PieChartView: PieRadarChartViewBase
             return false
         }
         
-        for (var i = 0; i < _indicesToHighlight.count; i++)
+        for i in 0 ..< _indicesToHighlight.count
         {
             // check if the xvalue for the given dataset needs highlight
             if (_indicesToHighlight[i].xIndex == xIndex
@@ -193,16 +233,28 @@ public class PieChartView: PieRadarChartViewBase
     }
     
     /// calculates the needed angle for a given value
-    private func calcAngle(value: Double) -> CGFloat
+    private func calcAngle(_ value: Double) -> CGFloat
     {
-        return CGFloat(value) / CGFloat(_data.yValueSum) * _maxAngle
+        return calcAngle(value, yValueSum: (_data as! PieChartData).yValueSum)
     }
     
-    public override func indexForAngle(angle: CGFloat) -> Int
+    /// calculates the needed angle for a given value
+    private func calcAngle(_ value: Double, yValueSum: Double) -> CGFloat
+    {
+        return CGFloat(value) / CGFloat(yValueSum) * _maxAngle
+    }
+    
+    /// This will throw an exception, PieChart has no XAxis object.
+    open override var xAxis: ChartXAxis
+    {
+        fatalError("PieChart has no XAxis")
+    }
+    
+    open override func indexForAngle(_ angle: CGFloat) -> Int
     {
         // take the current angle of the chart into consideration
         let a = ChartUtils.normalizedAngleFromAngle(angle - self.rotationAngle)
-        for (var i = 0; i < _absoluteAngles.count; i++)
+        for i in 0 ..< _absoluteAngles.count
         {
             if (_absoluteAngles[i] > a)
             {
@@ -214,11 +266,11 @@ public class PieChartView: PieRadarChartViewBase
     }
     
     /// - returns: the index of the DataSet this x-index belongs to.
-    public func dataSetIndexForIndex(xIndex: Int) -> Int
+    open func dataSetIndexForIndex(_ xIndex: Int) -> Int
     {
-        var dataSets = _data.dataSets
+        var dataSets = _data?.dataSets ?? []
         
-        for (var i = 0; i < dataSets.count; i++)
+        for i in 0 ..< dataSets.count
         {
             if (dataSets[i].entryForXIndex(xIndex) !== nil)
             {
@@ -232,99 +284,70 @@ public class PieChartView: PieRadarChartViewBase
     /// - returns: an integer array of all the different angles the chart slices
     /// have the angles in the returned array determine how much space (of 360°)
     /// each slice takes
-    public var drawAngles: [CGFloat]
+    open var drawAngles: [CGFloat]
     {
         return _drawAngles
     }
 
     /// - returns: the absolute angles of the different chart slices (where the
     /// slices end)
-    public var absoluteAngles: [CGFloat]
+    open var absoluteAngles: [CGFloat]
     {
         return _absoluteAngles
     }
     
-    /// Sets the color for the hole that is drawn in the center of the PieChart (if enabled).
+    /// The color for the hole that is drawn in the center of the PieChart (if enabled).
     /// 
     /// *Note: Use holeTransparent with holeColor = nil to make the hole transparent.*
-    public var holeColor: UIColor?
+    open var holeColor: NSUIColor?
     {
         get
         {
-            return (renderer as! PieChartRenderer).holeColor!
+            return _holeColor
         }
         set
         {
-            (renderer as! PieChartRenderer).holeColor = newValue
+            _holeColor = newValue
             setNeedsDisplay()
         }
     }
     
-    /// Set the hole in the center of the PieChart transparent
-    public var holeTransparent: Bool
-    {
-        get
-        {
-            return (renderer as! PieChartRenderer).holeTransparent
-        }
-        set
-        {
-            (renderer as! PieChartRenderer).holeTransparent = newValue
-            setNeedsDisplay()
-        }
-    }
-    
-    /// - returns: true if the hole in the center of the PieChart is transparent, false if not.
-    public var isHoleTransparent: Bool 
-    {
-        return (renderer as! PieChartRenderer).holeTransparent
-    }
-    
-    /// the alpha of the hole in the center of the piechart, in case holeTransparent == true
+    /// if true, the hole will see-through to the inner tips of the slices
     ///
-    /// **default**: 0.41
-    public var holeAlpha: CGFloat
+    /// **default**: `false`
+    open var drawSlicesUnderHoleEnabled: Bool
     {
         get
         {
-            return (renderer as! PieChartRenderer).holeAlpha
+            return _drawSlicesUnderHoleEnabled
         }
         set
         {
-            (renderer as! PieChartRenderer).holeAlpha = newValue
+            _drawSlicesUnderHoleEnabled = newValue
             setNeedsDisplay()
         }
     }
-    
+
     /// true if the hole in the center of the pie-chart is set to be visible, false if not
-    public var drawHoleEnabled: Bool
+    open var drawHoleEnabled: Bool
     {
         get
         {
-            return (renderer as! PieChartRenderer).drawHoleEnabled
+            return _drawHoleEnabled
         }
         set
         {
-            (renderer as! PieChartRenderer).drawHoleEnabled = newValue
+            _drawHoleEnabled = newValue
             setNeedsDisplay()
-        }
-    }
-    
-    /// - returns: true if the hole in the center of the pie-chart is set to be visible, false if not
-    public var isDrawHoleEnabled: Bool
-    {
-        get
-        {
-            return (renderer as! PieChartRenderer).drawHoleEnabled
         }
     }
     
     /// the text that is displayed in the center of the pie-chart
-    public var centerText: String?
+    open var centerText: String?
     {
         get
         {
-            return (renderer as! PieChartRenderer).centerAttributedText?.string
+            return self.centerAttributedText?.string
         }
         set
         {
@@ -335,56 +358,46 @@ public class PieChartView: PieRadarChartViewBase
             }
             else
             {
-                let paragraphStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
-                paragraphStyle.lineBreakMode = NSLineBreakMode.ByTruncatingTail
-                paragraphStyle.alignment = .Center
+                let paragraphStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+                paragraphStyle.lineBreakMode = NSLineBreakMode.byTruncatingTail
+                paragraphStyle.alignment = .center
                 
                 attrString = NSMutableAttributedString(string: newValue!)
                 attrString?.setAttributes([
-                    NSForegroundColorAttributeName: UIColor.blackColor(),
-                    NSFontAttributeName: UIFont.systemFontOfSize(12.0),
+                    NSForegroundColorAttributeName: NSUIColor.black,
+                    NSFontAttributeName: NSUIFont.systemFont(ofSize: 12.0),
                     NSParagraphStyleAttributeName: paragraphStyle
                     ], range: NSMakeRange(0, attrString!.length))
             }
-            (renderer as! PieChartRenderer).centerAttributedText = attrString
-            setNeedsDisplay()
+            self.centerAttributedText = attrString
         }
     }
     
     /// the text that is displayed in the center of the pie-chart
-    public var centerAttributedText: NSAttributedString?
+    open var centerAttributedText: NSAttributedString?
     {
         get
         {
-            return (renderer as! PieChartRenderer).centerAttributedText
+            return _centerAttributedText
         }
         set
         {
-            (renderer as! PieChartRenderer).centerAttributedText = newValue
+            _centerAttributedText = newValue
             setNeedsDisplay()
         }
     }
     
     /// true if drawing the center text is enabled
-    public var drawCenterTextEnabled: Bool
+    open var drawCenterTextEnabled: Bool
     {
         get
         {
-            return (renderer as! PieChartRenderer).drawCenterTextEnabled
+            return _drawCenterTextEnabled
         }
         set
         {
-            (renderer as! PieChartRenderer).drawCenterTextEnabled = newValue
+            _drawCenterTextEnabled = newValue
             setNeedsDisplay()
-        }
-    }
-    
-    /// - returns: true if drawing the center text is enabled
-    public var isDrawCenterTextEnabled: Bool
-    {
-        get
-        {
-            return (renderer as! PieChartRenderer).drawCenterTextEnabled
         }
     }
     
@@ -398,19 +411,19 @@ public class PieChartView: PieRadarChartViewBase
         return 0.0
     }
     
-    public override var radius: CGFloat
+    open override var radius: CGFloat
     {
         return _circleBox.width / 2.0
     }
     
     /// - returns: the circlebox, the boundingbox of the pie-chart slices
-    public var circleBox: CGRect
+    open var circleBox: CGRect
     {
         return _circleBox
     }
     
     /// - returns: the center of the circlebox
-    public var centerCircleBox: CGPoint
+    open var centerCircleBox: CGPoint
     {
         return CGPoint(x: _circleBox.midX, y: _circleBox.midY)
     }
@@ -418,15 +431,31 @@ public class PieChartView: PieRadarChartViewBase
     /// the radius of the hole in the center of the piechart in percent of the maximum radius (max = the radius of the whole chart)
     /// 
     /// **default**: 0.5 (50%) (half the pie)
-    public var holeRadiusPercent: CGFloat
+    open var holeRadiusPercent: CGFloat
     {
         get
         {
-            return (renderer as! PieChartRenderer).holeRadiusPercent
+            return _holeRadiusPercent
         }
         set
         {
-            (renderer as! PieChartRenderer).holeRadiusPercent = newValue
+            _holeRadiusPercent = newValue
+            setNeedsDisplay()
+        }
+    }
+    
+    /// The color that the transparent-circle should have.
+    ///
+    /// **default**: `nil`
+    open var transparentCircleColor: NSUIColor?
+    {
+        get
+        {
+            return _transparentCircleColor
+        }
+        set
+        {
+            _transparentCircleColor = newValue
             setNeedsDisplay()
         }
     }
@@ -434,83 +463,65 @@ public class PieChartView: PieRadarChartViewBase
     /// the radius of the transparent circle that is drawn next to the hole in the piechart in percent of the maximum radius (max = the radius of the whole chart)
     /// 
     /// **default**: 0.55 (55%) -> means 5% larger than the center-hole by default
-    public var transparentCircleRadiusPercent: CGFloat
+    open var transparentCircleRadiusPercent: CGFloat
     {
         get
         {
-            return (renderer as! PieChartRenderer).transparentCircleRadiusPercent
+            return _transparentCircleRadiusPercent
         }
         set
         {
-            (renderer as! PieChartRenderer).transparentCircleRadiusPercent = newValue
+            _transparentCircleRadiusPercent = newValue
             setNeedsDisplay()
         }
     }
     
     /// set this to true to draw the x-value text into the pie slices
-    public var drawSliceTextEnabled: Bool
+    open var drawSliceTextEnabled: Bool
     {
         get
         {
-            return (renderer as! PieChartRenderer).drawXLabelsEnabled
+            return _drawXLabelsEnabled
         }
         set
         {
-            (renderer as! PieChartRenderer).drawXLabelsEnabled = newValue
+            _drawXLabelsEnabled = newValue
             setNeedsDisplay()
-        }
-    }
-    
-    /// - returns: true if drawing x-values is enabled, false if not
-    public var isDrawSliceTextEnabled: Bool
-    {
-        get
-        {
-            return (renderer as! PieChartRenderer).drawXLabelsEnabled
         }
     }
     
     /// If this is enabled, values inside the PieChart are drawn in percent and not with their original value. Values provided for the ValueFormatter to format are then provided in percent.
-    public var usePercentValuesEnabled: Bool
+    open var usePercentValuesEnabled: Bool
     {
         get
         {
-            return (renderer as! PieChartRenderer).usePercentValuesEnabled
+            return _usePercentValuesEnabled
         }
         set
         {
-            (renderer as! PieChartRenderer).usePercentValuesEnabled = newValue
+            _usePercentValuesEnabled = newValue
             setNeedsDisplay()
         }
     }
     
-    /// - returns: true if drawing x-values is enabled, false if not
-    public var isUsePercentValuesEnabled: Bool
-    {
-        get
-        {
-            return (renderer as! PieChartRenderer).usePercentValuesEnabled
-        }
-    }
-    
     /// the rectangular radius of the bounding box for the center text, as a percentage of the pie hole
-    public var centerTextRadiusPercent: CGFloat
+    open var centerTextRadiusPercent: CGFloat
     {
         get
         {
-            return (renderer as! PieChartRenderer).centerTextRadiusPercent
+            return _centerTextRadiusPercent
         }
         set
         {
-            (renderer as! PieChartRenderer).centerTextRadiusPercent = newValue
+            _centerTextRadiusPercent = newValue
             setNeedsDisplay()
         }
     }
     
     /// The max angle that is used for calculating the pie-circle.
     /// 360 means it's a full pie-chart, 180 results in a half-pie-chart.
-    /// - default: 360.0
-    public var maxAngle: CGFloat
+    /// **default**: 360.0
+    open var maxAngle: CGFloat
     {
         get
         {

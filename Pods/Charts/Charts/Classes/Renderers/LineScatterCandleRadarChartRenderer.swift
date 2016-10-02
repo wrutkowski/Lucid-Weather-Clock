@@ -8,14 +8,14 @@
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 import Foundation
 import CoreGraphics
-import UIKit
 
-public class LineScatterCandleRadarChartRenderer: ChartDataRendererBase
+
+open class LineScatterCandleRadarChartRenderer: ChartDataRendererBase
 {
     public override init(animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler)
     {
@@ -27,24 +27,24 @@ public class LineScatterCandleRadarChartRenderer: ChartDataRendererBase
     /// :param: points
     /// :param: horizontal
     /// :param: vertical
-    public func drawHighlightLines(context context: CGContext, point: CGPoint, set: LineScatterCandleChartDataSet)
+    open func drawHighlightLines(context: CGContext, point: CGPoint, set: ILineScatterCandleRadarChartDataSet)
     {
         // draw vertical highlight lines
         if set.isVerticalHighlightIndicatorEnabled
         {
-            CGContextBeginPath(context)
-            CGContextMoveToPoint(context, point.x, viewPortHandler.contentTop)
-            CGContextAddLineToPoint(context, point.x, viewPortHandler.contentBottom)
-            CGContextStrokePath(context)
+            context.beginPath()
+            context.move(to: CGPoint(x: point.x, y: viewPortHandler.contentTop))
+            context.addLine(to: CGPoint(x: point.x, y: viewPortHandler.contentBottom))
+            context.strokePath()
         }
         
         // draw horizontal highlight lines
         if set.isHorizontalHighlightIndicatorEnabled
         {
-            CGContextBeginPath(context)
-            CGContextMoveToPoint(context, viewPortHandler.contentLeft, point.y)
-            CGContextAddLineToPoint(context, viewPortHandler.contentRight, point.y)
-            CGContextStrokePath(context)
+            context.beginPath()
+            context.move(to: CGPoint(x: viewPortHandler.contentLeft, y: point.y))
+            context.addLine(to: CGPoint(x: viewPortHandler.contentRight, y: point.y))
+            context.strokePath()
         }
     }
 }

@@ -8,7 +8,7 @@
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 import Foundation
@@ -19,5 +19,5 @@ public protocol LineChartDataProvider: BarLineScatterCandleBubbleChartDataProvid
 {
     var lineData: LineChartData? { get }
     
-    func getAxis(axis: ChartYAxis.AxisDependency) -> ChartYAxis
+    func getAxis(_ axis: ChartYAxis.AxisDependency) -> ChartYAxis
 }

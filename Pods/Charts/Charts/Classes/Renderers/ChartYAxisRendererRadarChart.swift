@@ -8,37 +8,43 @@
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 import Foundation
 import CoreGraphics
-import UIKit
 
-public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
+#if !os(OSX)
+    import UIKit
+#endif
+
+
+open class ChartYAxisRendererRadarChart: ChartYAxisRenderer
 {
-    private weak var _chart: RadarChartView!
+    private weak var chart: RadarChartView?
     
     public init(viewPortHandler: ChartViewPortHandler, yAxis: ChartYAxis, chart: RadarChartView)
     {
         super.init(viewPortHandler: viewPortHandler, yAxis: yAxis, transformer: nil)
         
-        _chart = chart
+        self.chart = chart
     }
- 
-    public override func computeAxis(yMin yMin: Double, yMax: Double)
+    
+    open override func computeAxis(yMin: Double, yMax: Double)
     {
         computeAxisValues(min: yMin, max: yMax)
     }
     
-    internal override func computeAxisValues(min yMin: Double, max yMax: Double)
+    open override func computeAxisValues(min yMin: Double, max yMax: Double)
     {
-        let labelCount = _yAxis.labelCount
+        guard let yAxis = yAxis else { return }
+        
+        let labelCount = yAxis.labelCount
         let range = abs(yMax - yMin)
         
         if (labelCount == 0 || range <= 0)
         {
-            _yAxis.entries = [Double]()
+            yAxis.entries = [Double]()
             return
         }
         
@@ -55,26 +61,26 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
         }
         
         // force label count
-        if _yAxis.isForceLabelsEnabled
+        if yAxis.forceLabelsEnabled
         {
             let step = Double(range) / Double(labelCount - 1)
             
-            if _yAxis.entries.count < labelCount
+            if yAxis.entries.count < labelCount
             {
                 // Ensure stops contains at least numStops elements.
-                _yAxis.entries.removeAll(keepCapacity: true)
+                yAxis.entries.removeAll(keepingCapacity: true)
             }
             else
             {
-                _yAxis.entries = [Double]()
-                _yAxis.entries.reserveCapacity(labelCount)
+                yAxis.entries = [Double]()
+                yAxis.entries.reserveCapacity(labelCount)
             }
             
             var v = yMin
             
-            for (var i = 0; i < labelCount; i++)
+            for _ in 0 ..< labelCount
             {
-                _yAxis.entries.append(v)
+                yAxis.entries.append(v)
                 v += step
             }
             
@@ -83,167 +89,173 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
         {
             // no forced count
             
-        // clean old values
-        if (_yAxis.entries.count > 0)
-        {
-            _yAxis.entries.removeAll(keepCapacity: false)
-        }
-        
-        // if the labels should only show min and max
-        if (_yAxis.isShowOnlyMinMaxEnabled)
-        {
-            _yAxis.entries = [Double]()
-            _yAxis.entries.append(yMin)
-            _yAxis.entries.append(yMax)
-        }
-        else
-        {
+            // clean old values
+            if (yAxis.entries.count > 0)
+            {
+                yAxis.entries.removeAll(keepingCapacity: false)
+            }
+            
+            // if the labels should only show min and max
+            if (yAxis.showOnlyMinMaxEnabled)
+            {
+                yAxis.entries = [Double]()
+                yAxis.entries.append(yMin)
+                yAxis.entries.append(yMax)
+            }
+            else
+            {
                 let rawCount = Double(yMin) / interval
                 var first = rawCount < 0.0 ? floor(rawCount) * interval : ceil(rawCount) * interval;
-            
-                if (first < yMin && _yAxis.isStartAtZeroEnabled)
-                { // Force the first label to be at the 0 (or smallest negative value)
-                    first = yMin
+                
+                if (first == 0.0)
+                { // Fix for IEEE negative zero case (Where value == -0.0, and 0.0 == -0.0)
+                    first = 0.0
                 }
                 
-            if (first == 0.0)
-            { // Fix for IEEE negative zero case (Where value == -0.0, and 0.0 == -0.0)
-                first = 0.0
+                let last = ChartUtils.nextUp(floor(Double(yMax) / interval) * interval)
+                
+                var n = 0
+                for _ in stride(from: first, through: last, by: interval)
+                {
+                    n += 1
+                }
+                
+                if !yAxis.isAxisMaxCustom
+                {
+                    n += 1
+                }
+                
+                if (yAxis.entries.count < n)
+                {
+                    // Ensure stops contains at least numStops elements.
+                    yAxis.entries = [Double](repeating: 0.0, count: n)
+                }
+                
+                var f = first
+                var i = 0
+                while (i < n)
+                {
+                    yAxis.entries[i] = Double(f)
+                    
+                    f += interval
+                    i += 1
+                }
             }
-            
-            let last = ChartUtils.nextUp(floor(Double(yMax) / interval) * interval)
-            
-            var f: Double
-            var i: Int
-            var n = 0
-            for (f = first; f <= last; f += interval)
-            {
-                ++n
-            }
-            
-            if (isnan(_yAxis.customAxisMax))
-            {
-                n += 1
-            }
-
-            if (_yAxis.entries.count < n)
-            {
-                // Ensure stops contains at least numStops elements.
-                _yAxis.entries = [Double](count: n, repeatedValue: 0.0)
-            }
-
-            for (f = first, i = 0; i < n; f += interval, ++i)
-            {
-                _yAxis.entries[i] = Double(f)
-            }
-        }
         }
         
-        if !_yAxis.isStartAtZeroEnabled && _yAxis.entries[0] < yMin
+        if yAxis.entries[0] < yMin
         {
             // If startAtZero is disabled, and the first label is lower that the axis minimum,
             // Then adjust the axis minimum
-            _yAxis.axisMinimum = _yAxis.entries[0]
+            yAxis._axisMinimum = yAxis.entries[0]
         }
-        _yAxis.axisMaximum = _yAxis.entries[_yAxis.entryCount - 1]
-        _yAxis.axisRange = abs(_yAxis.axisMaximum - _yAxis.axisMinimum)
+        yAxis._axisMaximum = yAxis.entries[yAxis.entryCount - 1]
+        yAxis.axisRange = abs(yAxis._axisMaximum - yAxis._axisMinimum)
     }
     
-    public override func renderAxisLabels(context context: CGContext)
+    open override func renderAxisLabels(context: CGContext)
     {
-        if (!_yAxis.isEnabled || !_yAxis.isDrawLabelsEnabled)
+        guard let yAxis = yAxis,
+              let chart = chart
+        else { return }
+        
+        if (!yAxis.enabled || !yAxis.drawLabelsEnabled)
         {
             return
         }
         
-        let labelFont = _yAxis.labelFont
-        let labelTextColor = _yAxis.labelTextColor
+        let labelFont = yAxis.labelFont
+        let labelTextColor = yAxis.labelTextColor
         
-        let center = _chart.centerOffsets
-        let factor = _chart.factor
+        let center = chart.centerOffsets
+        let factor = chart.factor
         
-        let labelCount = _yAxis.entryCount
+        let labelCount = yAxis.entryCount
         
-        let labelLineHeight = _yAxis.labelFont.lineHeight
+        let labelLineHeight = yAxis.labelFont.lineHeight
         
-        for (var j = 0; j < labelCount; j++)
+        for j in 0 ..< labelCount
         {
-            if (j == labelCount - 1 && _yAxis.isDrawTopYLabelEntryEnabled == false)
+            if (j == labelCount - 1 && yAxis.drawTopYLabelEntryEnabled == false)
             {
                 break
             }
             
-            let r = CGFloat(_yAxis.entries[j] - _yAxis.axisMinimum) * factor
+            let r = CGFloat(yAxis.entries[j] - yAxis._axisMinimum) * factor
             
-            let p = ChartUtils.getPosition(center: center, dist: r, angle: _chart.rotationAngle)
+            let p = ChartUtils.getPosition(center: center, dist: r, angle: chart.rotationAngle)
             
-            let label = _yAxis.getFormattedLabel(j)
+            let label = yAxis.getFormattedLabel(j)
             
-            ChartUtils.drawText(context: context, text: label, point: CGPoint(x: p.x + 10.0, y: p.y - labelLineHeight), align: .Left, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor])
+            ChartUtils.drawText(context: context, text: label, point: CGPoint(x: p.x + 10.0, y: p.y - labelLineHeight), align: .left, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor])
         }
     }
     
-    public override func renderLimitLines(context context: CGContext)
+    open override func renderLimitLines(context: CGContext)
     {
-        var limitLines = _yAxis.limitLines
+        guard let yAxis = yAxis,
+              let chart = chart
+        else { return }
+        
+        var limitLines = yAxis.limitLines
         
         if (limitLines.count == 0)
         {
             return
         }
         
-        CGContextSaveGState(context)
+        context.saveGState()
         
-        let sliceangle = _chart.sliceAngle
+        let sliceangle = chart.sliceAngle
         
         // calculate the factor that is needed for transforming the value to pixels
-        let factor = _chart.factor
+        let factor = chart.factor
         
-        let center = _chart.centerOffsets
+        let center = chart.centerOffsets
         
-        for (var i = 0; i < limitLines.count; i++)
+        for i in 0 ..< limitLines.count
         {
             let l = limitLines[i]
             
-            if !l.isEnabled
+            if !l.enabled
             {
                 continue
             }
             
-            CGContextSetStrokeColorWithColor(context, l.lineColor.CGColor)
-            CGContextSetLineWidth(context, l.lineWidth)
+            context.setStrokeColor(l.lineColor.cgColor)
+            context.setLineWidth(l.lineWidth)
             if (l.lineDashLengths != nil)
             {
-                CGContextSetLineDash(context, l.lineDashPhase, l.lineDashLengths!, l.lineDashLengths!.count)
+                context.setLineDash(phase: l.lineDashPhase, lengths: l.lineDashLengths!)
             }
             else
             {
-                CGContextSetLineDash(context, 0.0, nil, 0)
+                context.setLineDash(phase: 0.0, lengths: [])
             }
             
-            let r = CGFloat(l.limit - _chart.chartYMin) * factor
+            let r = CGFloat(l.limit - chart.chartYMin) * factor
             
-            CGContextBeginPath(context)
+            context.beginPath()
             
-            for (var j = 0, count = _chart.data!.xValCount; j < count; j++)
+            for j in 0 ..< chart.data!.xValCount
             {
-                let p = ChartUtils.getPosition(center: center, dist: r, angle: sliceangle * CGFloat(j) + _chart.rotationAngle)
+                let p = ChartUtils.getPosition(center: center, dist: r, angle: sliceangle * CGFloat(j) + chart.rotationAngle)
                 
                 if (j == 0)
                 {
-                    CGContextMoveToPoint(context, p.x, p.y)
+                    context.move(to: CGPoint(x: p.x, y: p.y))
                 }
                 else
                 {
-                    CGContextAddLineToPoint(context, p.x, p.y)
+                    context.addLine(to: CGPoint(x: p.x, y: p.y))
                 }
             }
             
-            CGContextClosePath(context)
+            context.closePath()
             
-            CGContextStrokePath(context)
+            context.strokePath()
         }
         
-        CGContextRestoreGState(context)
+        context.restoreGState()
     }
 }

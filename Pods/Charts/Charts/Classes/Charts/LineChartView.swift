@@ -8,14 +8,14 @@
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 import Foundation
 import CoreGraphics
 
 /// Chart that draws lines, surfaces, circles, ...
-public class LineChartView: BarLineChartViewBase, LineChartDataProvider
+open class LineChartView: BarLineChartViewBase, LineChartDataProvider
 {
     internal override func initialize()
     {
@@ -27,14 +27,15 @@ public class LineChartView: BarLineChartViewBase, LineChartDataProvider
     internal override func calcMinMax()
     {
         super.calcMinMax()
+        guard let data = _data else { return }
         
-        if (_deltaX == 0.0 && _data.yValCount > 0)
+        if _xAxis.axisRange == 0.0 && data.yValCount > 0
         {
-            _deltaX = 1.0
+            _xAxis.axisRange = 1.0
         }
     }
     
     // MARK: - LineChartDataProvider
     
-    public var lineData: LineChartData? { return _data as? LineChartData }
+    open var lineData: LineChartData? { return _data as? LineChartData }
 }
