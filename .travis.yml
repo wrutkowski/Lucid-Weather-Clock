@@ -1,4 +1,4 @@
 language: objective-c
 osx_image: xcode8
-xcode_workspace: Lucid\ Weather\ Clock.xcworkspace
+xcode_workspace: Lucid Weather Clock.xcworkspace
 xcode_scheme: Lucid Weather Clock
