@@ -71,6 +71,8 @@
 		54CEABBD3C1AD2B68C5CD8D26870AA3F /* Units.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90651521876984D12164D3E71DD234CE /* Units.swift */; };
 		54E862294530B7914A37F408C0DFF74C /* ChartAxisBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB8AEE463B1F50A0F7FCCA6C528B88E9 /* ChartAxisBase.swift */; };
 		592FD0CC56BA8CAF2AEFC530ABA7DFB3 /* Pods-Lucid Weather Clock-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AE23665B4EA877599F53CA754DDE0DC /* Pods-Lucid Weather Clock-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5B2FAD861DA1ACC6006FAB46 /* RadiusPieChartRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2FAD851DA1ACC6006FAB46 /* RadiusPieChartRenderer.swift */; };
+		5B2FAD881DA1ACF1006FAB46 /* RadiusPieChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2FAD871DA1ACF1006FAB46 /* RadiusPieChartView.swift */; };
 		604D5A1EF4ABD6E0ACB3B5C820C9F841 /* LineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5B188175A3F83599D5425FF81DB261 /* LineChartView.swift */; };
 		620860DD966F93A5BB284ECA65E3FF68 /* BarLineScatterCandleBubbleChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536387BF43CCA66AD1CE823022015BF0 /* BarLineScatterCandleBubbleChartDataSet.swift */; };
 		631BAC0B955DDA472F2092F853D8624D /* LineChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114F584750DA074FDD15C131C7968764 /* LineChartData.swift */; };
@@ -278,6 +280,8 @@
 		58F9748A42BB016EFBD1CEE46D0E0166 /* INTUHeadingRequest.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = INTUHeadingRequest.m; path = LocationManager/INTULocationManager/INTUHeadingRequest.m; sourceTree = "<group>"; };
 		5979EEAF4F3942CB5720CC2EB20845D4 /* BubbleChartData.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BubbleChartData.swift; path = Charts/Classes/Data/Implementations/Standard/BubbleChartData.swift; sourceTree = "<group>"; };
 		59AB083D7D7120B912A856D688481CA5 /* Language.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Language.swift; path = Source/Language.swift; sourceTree = "<group>"; };
+		5B2FAD851DA1ACC6006FAB46 /* RadiusPieChartRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RadiusPieChartRenderer.swift; path = Charts/Classes/Renderers/RadiusPieChartRenderer.swift; sourceTree = "<group>"; };
+		5B2FAD871DA1ACF1006FAB46 /* RadiusPieChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RadiusPieChartView.swift; path = Charts/Classes/Charts/RadiusPieChartView.swift; sourceTree = "<group>"; };
 		5BE742DFF21CD972B2EAB56C51D110EA /* BarChartView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BarChartView.swift; path = Charts/Classes/Charts/BarChartView.swift; sourceTree = "<group>"; };
 		5C684402BE56192B7CA777A9070D09BA /* INTULocationManager.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = INTULocationManager.modulemap; sourceTree = "<group>"; };
 		5D8BF1E3C6BEE9672F6F9968BE9FF9F8 /* LineRadarChartRenderer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LineRadarChartRenderer.swift; path = Charts/Classes/Renderers/LineRadarChartRenderer.swift; sourceTree = "<group>"; };
@@ -565,8 +569,10 @@
 				61D33FEB7D96DC5437389EF8347C91BF /* PieChartRenderer.swift */,
 				ACF0CC0198D9BD6E935FC8C6CB09B41F /* PieChartView.swift */,
 				19058C2A5D649F73F6DDB75E54061C79 /* PieRadarChartViewBase.swift */,
+				5B2FAD871DA1ACF1006FAB46 /* RadiusPieChartView.swift */,
 				6CBADB53F2388CD1DD80B41656AAA2C1 /* RadarChartData.swift */,
 				FFAB8B75924B08C4E50797B427329205 /* RadarChartDataSet.swift */,
+				5B2FAD851DA1ACC6006FAB46 /* RadiusPieChartRenderer.swift */,
 				476921AC599AA5EE29B1AC03C029ECFD /* RadarChartRenderer.swift */,
 				35912BAA586029351BBEFD74AF777B56 /* RadarChartView.swift */,
 				344F51E72CA28A5A0E48F55AF214B1D1 /* ScatterChartData.swift */,
@@ -1062,6 +1068,8 @@
 				C89A56E617144FEA3136394B712452A5 /* ScatterChartRenderer.swift in Sources */,
 				C6F5785A49C245BD02BBD3DCA2FD6C53 /* ScatterChartView.swift in Sources */,
 				E90141BF332560ED9C3BA829889E51CD /* ZoomChartViewJob.swift in Sources */,
+				5B2FAD881DA1ACF1006FAB46 /* RadiusPieChartView.swift in Sources */,
+				5B2FAD861DA1ACC6006FAB46 /* RadiusPieChartRenderer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

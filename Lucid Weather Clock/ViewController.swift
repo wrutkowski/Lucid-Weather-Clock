@@ -16,7 +16,7 @@ import Charts
 class ViewController: UIViewController, BEMAnalogClockDelegate {
 
     @IBOutlet weak var clock: BEMAnalogClockView!
-    @IBOutlet weak var chart: PieChartView!
+    @IBOutlet weak var chart: RadiusPieChartView!
     @IBOutlet weak var labelInfo: UILabel!
     @IBOutlet weak var labelTemperature: UILabel!
     @IBOutlet weak var buttonRefresh: UIButton!
