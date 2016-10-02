@@ -1,8 +1,10 @@
 EMBEDDED_CONTENT_CONTAINS_SWIFT = YES
+FRAMEWORK_SEARCH_PATHS = $(inherited) "$PODS_CONFIGURATION_BUILD_DIR/BEMAnalogClock" "$PODS_CONFIGURATION_BUILD_DIR/Charts" "$PODS_CONFIGURATION_BUILD_DIR/ForecastIO" "$PODS_CONFIGURATION_BUILD_DIR/INTULocationManager"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
 LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
-OTHER_CFLAGS = $(inherited) -iquote "$CONFIGURATION_BUILD_DIR/BEMAnalogClock.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/Charts.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/ForecastIO.framework/Headers" -iquote "$CONFIGURATION_BUILD_DIR/INTULocationManager.framework/Headers"
+OTHER_CFLAGS = $(inherited) -iquote "$PODS_CONFIGURATION_BUILD_DIR/BEMAnalogClock/BEMAnalogClock.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/Charts/Charts.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/ForecastIO/ForecastIO.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/INTULocationManager/INTULocationManager.framework/Headers"
 OTHER_LDFLAGS = $(inherited) -framework "BEMAnalogClock" -framework "Charts" -framework "ForecastIO" -framework "INTULocationManager"
 OTHER_SWIFT_FLAGS = $(inherited) "-D" "COCOAPODS"
-PODS_FRAMEWORK_BUILD_PATH = $(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Pods-Lucid Weather Clock
+PODS_BUILD_DIR = $BUILD_DIR
+PODS_CONFIGURATION_BUILD_DIR = $PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
 PODS_ROOT = ${SRCROOT}/Pods

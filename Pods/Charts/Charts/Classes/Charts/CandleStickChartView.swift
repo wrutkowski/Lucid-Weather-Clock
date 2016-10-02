@@ -8,34 +8,34 @@
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 import Foundation
 import CoreGraphics
 
 /// Financial chart type that draws candle-sticks.
-public class CandleStickChartView: BarLineChartViewBase, CandleChartDataProvider
+open class CandleStickChartView: BarLineChartViewBase, CandleChartDataProvider
 {
     internal override func initialize()
     {
         super.initialize()
         
         renderer = CandleStickChartRenderer(dataProvider: self, animator: _animator, viewPortHandler: _viewPortHandler)
-        _chartXMin = -0.5
+        _xAxis._axisMinimum = -0.5
     }
 
     internal override func calcMinMax()
     {
         super.calcMinMax()
 
-        _chartXMax += 0.5
-        _deltaX = CGFloat(abs(_chartXMax - _chartXMin))
+        _xAxis._axisMaximum += 0.5
+        _xAxis.axisRange = abs(_xAxis._axisMaximum - _xAxis._axisMinimum)
     }
     
     // MARK: - CandleChartDataProvider
     
-    public var candleData: CandleChartData?
+    open var candleData: CandleChartData?
     {
         return _data as? CandleChartData
     }

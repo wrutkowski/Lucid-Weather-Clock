@@ -14,10 +14,11 @@
 		4F8E22261C15D3160083245B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F8E22251C15D3160083245B /* Assets.xcassets */; };
 		4F8E22291C15D3160083245B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F8E22271C15D3160083245B /* LaunchScreen.storyboard */; };
 		5B6D54DB1C17A7BA00766ECB /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6D54DA1C17A7BA00766ECB /* ColorManager.swift */; };
-		AB68EED5533585D36343475C /* Pods_Lucid_Weather_Clock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCCDB696B216167411B3FC1B /* Pods_Lucid_Weather_Clock.framework */; };
+		DB5F4BE2FD04DDBA0D707384 /* Pods_Lucid_Weather_Clock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B4B6EC178CE22382A551A92 /* Pods_Lucid_Weather_Clock.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2B4B6EC178CE22382A551A92 /* Pods_Lucid_Weather_Clock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Lucid_Weather_Clock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F56B4861C1AFE2C003687AC /* ForecastDataEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForecastDataEntry.swift; sourceTree = "<group>"; };
 		4F8E221B1C15D3160083245B /* Lucid Weather Clock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Lucid Weather Clock.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F8E221E1C15D3160083245B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -28,9 +29,8 @@
 		4F8E222A1C15D3160083245B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4F8E22341C15E1190083245B /* Lucid Weather Clock-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Lucid Weather Clock-Bridging-Header.h"; sourceTree = "<group>"; };
 		5B6D54DA1C17A7BA00766ECB /* ColorManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorManager.swift; sourceTree = "<group>"; };
-		A91D3595D89FC47886A33CA0 /* Pods-Lucid Weather Clock.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lucid Weather Clock.release.xcconfig"; path = "Pods/Target Support Files/Pods-Lucid Weather Clock/Pods-Lucid Weather Clock.release.xcconfig"; sourceTree = "<group>"; };
-		AFDA9D939974F6AE312AE389 /* Pods-Lucid Weather Clock.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lucid Weather Clock.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Lucid Weather Clock/Pods-Lucid Weather Clock.debug.xcconfig"; sourceTree = "<group>"; };
-		BCCDB696B216167411B3FC1B /* Pods_Lucid_Weather_Clock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Lucid_Weather_Clock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		72C0DB4C9ECEE3D8E8107BA6 /* Pods-Lucid Weather Clock.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lucid Weather Clock.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Lucid Weather Clock/Pods-Lucid Weather Clock.debug.xcconfig"; sourceTree = "<group>"; };
+		81157A77C30C886DADFD0B3A /* Pods-Lucid Weather Clock.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lucid Weather Clock.release.xcconfig"; path = "Pods/Target Support Files/Pods-Lucid Weather Clock/Pods-Lucid Weather Clock.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,7 +38,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB68EED5533585D36343475C /* Pods_Lucid_Weather_Clock.framework in Frameworks */,
+				DB5F4BE2FD04DDBA0D707384 /* Pods_Lucid_Weather_Clock.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -50,8 +50,8 @@
 			children = (
 				4F8E221D1C15D3160083245B /* Lucid Weather Clock */,
 				4F8E221C1C15D3160083245B /* Products */,
-				588896D80EFC75788F8FDABB /* Pods */,
-				D33B680D057938487F9D71D2 /* Frameworks */,
+				659BCFF289772940AE9416AD /* Pods */,
+				E327DB772C86A24B480DFD7C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -79,19 +79,19 @@
 			path = "Lucid Weather Clock";
 			sourceTree = "<group>";
 		};
-		588896D80EFC75788F8FDABB /* Pods */ = {
+		659BCFF289772940AE9416AD /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				AFDA9D939974F6AE312AE389 /* Pods-Lucid Weather Clock.debug.xcconfig */,
-				A91D3595D89FC47886A33CA0 /* Pods-Lucid Weather Clock.release.xcconfig */,
+				72C0DB4C9ECEE3D8E8107BA6 /* Pods-Lucid Weather Clock.debug.xcconfig */,
+				81157A77C30C886DADFD0B3A /* Pods-Lucid Weather Clock.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		D33B680D057938487F9D71D2 /* Frameworks */ = {
+		E327DB772C86A24B480DFD7C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				BCCDB696B216167411B3FC1B /* Pods_Lucid_Weather_Clock.framework */,
+				2B4B6EC178CE22382A551A92 /* Pods_Lucid_Weather_Clock.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -103,12 +103,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4F8E222D1C15D3160083245B /* Build configuration list for PBXNativeTarget "Lucid Weather Clock" */;
 			buildPhases = (
-				C74F0E00BE605926801A590C /* Check Pods Manifest.lock */,
+				ACA07617EDE825F21FFD6B73 /* [CP] Check Pods Manifest.lock */,
 				4F8E22171C15D3160083245B /* Sources */,
 				4F8E22181C15D3160083245B /* Frameworks */,
 				4F8E22191C15D3160083245B /* Resources */,
-				623F0B84201A95F00BAA070F /* Embed Pods Frameworks */,
-				2EBEB2B6B1547D21DC92F26C /* Copy Pods Resources */,
+				C32C47BA59BDD9672F776971 /* [CP] Embed Pods Frameworks */,
+				D26DB424E79C38D2925FE84D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -126,11 +126,12 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0710;
-				LastUpgradeCheck = 0710;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Wojciech Rutkowski";
 				TargetAttributes = {
 					4F8E221A1C15D3160083245B = {
 						CreatedOnToolsVersion = 7.1;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -166,29 +167,29 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2EBEB2B6B1547D21DC92F26C /* Copy Pods Resources */ = {
+		ACA07617EDE825F21FFD6B73 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Lucid Weather Clock/Pods-Lucid Weather Clock-resources.sh\"\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		623F0B84201A95F00BAA070F /* Embed Pods Frameworks */ = {
+		C32C47BA59BDD9672F776971 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -196,19 +197,19 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Lucid Weather Clock/Pods-Lucid Weather Clock-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C74F0E00BE605926801A590C /* Check Pods Manifest.lock */ = {
+		D26DB424E79C38D2925FE84D /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Lucid Weather Clock/Pods-Lucid Weather Clock-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -260,8 +261,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -305,8 +308,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -325,6 +330,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -332,8 +338,9 @@
 		};
 		4F8E222E1C15D3160083245B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AFDA9D939974F6AE312AE389 /* Pods-Lucid Weather Clock.debug.xcconfig */;
+			baseConfigurationReference = 72C0DB4C9ECEE3D8E8107BA6 /* Pods-Lucid Weather Clock.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = "Lucid Weather Clock/Info.plist";
@@ -343,13 +350,15 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Lucid Weather Clock/Lucid Weather Clock-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
 		4F8E222F1C15D3160083245B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A91D3595D89FC47886A33CA0 /* Pods-Lucid Weather Clock.release.xcconfig */;
+			baseConfigurationReference = 81157A77C30C886DADFD0B3A /* Pods-Lucid Weather Clock.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = "Lucid Weather Clock/Info.plist";
@@ -358,6 +367,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wojciech-rutkowski.Lucid-Weather-Clock";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Lucid Weather Clock/Lucid Weather Clock-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

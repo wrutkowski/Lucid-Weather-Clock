@@ -8,7 +8,7 @@
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 import Foundation
@@ -19,7 +19,7 @@ public protocol BarChartDataProvider: BarLineScatterCandleBubbleChartDataProvide
 {
     var barData: BarChartData? { get }
     
-    var isDrawBarShadowEnabled: Bool { get }
-    var isDrawValueAboveBarEnabled: Bool { get }
-    var isDrawHighlightArrowEnabled: Bool { get }
+    var drawBarShadowEnabled: Bool { get }
+    var drawValueAboveBarEnabled: Bool { get }
+    var drawHighlightArrowEnabled: Bool { get }
 }

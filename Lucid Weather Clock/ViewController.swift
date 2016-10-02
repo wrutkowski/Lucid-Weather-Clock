@@ -22,39 +22,39 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
     @IBOutlet weak var buttonRefresh: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
-    private var clockStartDate = NSDate()
-    private var clockLoadingAnimationActive = true
-    private var clockDisplayedToken = false
-    private var timerLongPress: NSTimer?
-    private var forceTouchActionActive = false
+    fileprivate var clockStartDate = Date()
+    fileprivate var clockLoadingAnimationActive = true
+    fileprivate var clockDisplayedToken = false
+    fileprivate var timerLongPress: Timer?
+    fileprivate var forceTouchActionActive = false
     
-    private var location: CLLocation!
-    private var forecast: Forecast?
-    private var placemark: CLPlacemark?
+    fileprivate var location: CLLocation!
+    fileprivate var forecast: Forecast?
+    fileprivate var placemark: CLPlacemark?
     
     // DEBUG vars
-    private var maxPrecipIntensity: Float = 0
+    fileprivate var maxPrecipIntensity: Float = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = UIColor.lightGrayColor()
+        view.backgroundColor = UIColor.lightGray
 
         clock.delegate = self
-        clock.userInteractionEnabled = false
+        clock.isUserInteractionEnabled = false
         labelInfo.text = ""
         labelTemperature.text = ""
         chart.alpha = 0.0
-        buttonRefresh.hidden = true
+        buttonRefresh.isHidden = true
         self.activityIndicator.startAnimating()
         
         refreshForecast()
         
-        chart.userInteractionEnabled = false
+        chart.isUserInteractionEnabled = false
         chart.descriptionText = ""
         chart.noDataText = ""
         chart.noDataTextDescription = ""
-        chart.backgroundColor = UIColor.clearColor()
+        chart.backgroundColor = UIColor.clear
         chart.drawHoleEnabled = false
         chart.drawCenterTextEnabled = false
         chart.drawSliceTextEnabled = false
@@ -67,24 +67,24 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
         tapGesture.numberOfTapsRequired = 3
         view.addGestureRecognizer(tapGesture)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.viewDidBecomeActive), name: UIApplicationDidBecomeActiveNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.viewDidBecomeActive), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         clock.alpha = 0.0
         
         configureWatchface()
         
-        UIView.animateWithDuration(clockDisplayedToken ? 0.5 : 2.5) { () -> Void in
+        UIView.animate(withDuration: clockDisplayedToken ? 0.5 : 2.5, animations: { () -> Void in
             self.clock.alpha = 1.0
-        }
+        }) 
         clockDisplayedToken = true
     }
 
-    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
         
         clock.reloadClock()
     }
@@ -93,47 +93,47 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
         clock.alpha = 0.0
         clock.reloadClock()
         
-        UIView.animateWithDuration(0.5) { () -> Void in
+        UIView.animate(withDuration: 0.5, animations: { () -> Void in
             self.clock.alpha = 1.0
-        }
+        }) 
     }
     
-    override func motionEnded(motion: UIEventSubtype, withEvent event: UIEvent?) {
-        guard let event = event where event.subtype == .MotionShake else { return }
+    override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
+        guard let event = event , event.subtype == .motionShake else { return }
         sharePrecipation()
     }
 
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return .LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .lightContent
     }
 
     //MARK - Touches
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        if traitCollection.forceTouchCapability == UIForceTouchCapability.Unavailable {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if traitCollection.forceTouchCapability == UIForceTouchCapability.unavailable {
             removeTimer()
-            timerLongPress = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(ViewController.showForecastHourly), userInfo: nil, repeats: false)
+            timerLongPress = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(ViewController.showForecastHourly), userInfo: nil, repeats: false)
         }
     }
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        guard let touch = touches.first where traitCollection.forceTouchCapability == .Available else { return }
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first , traitCollection.forceTouchCapability == .available else { return }
         
         forceTouchActionActive && touch.maximumPossibleForce / touch.force > 0.5 ? showForecastHourly() : showForecastBest()
         forceTouchActionActive = !forceTouchActionActive
     }
     
-    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         removeTimer()
         showForecastBest()
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         removeTimer()
         showForecastBest()
     }
     
-    private func removeTimer() {
+    fileprivate func removeTimer() {
         guard let timerLongPress = timerLongPress else { return }
         timerLongPress.invalidate()
     }
@@ -141,10 +141,10 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
     //MARK - Debug
     
     func debugInfo() {
-        let okButton = UIAlertAction(title: "OK", style: .Default, handler: nil)
-        let alert = UIAlertController(title: "DEBUG", message: "Max precip intensity: \(maxPrecipIntensity)", preferredStyle: .Alert)
+        let okButton = UIAlertAction(title: "OK", style: .default, handler: nil)
+        let alert = UIAlertController(title: "DEBUG", message: "Max precip intensity: \(maxPrecipIntensity)", preferredStyle: .alert)
         alert.addAction(okButton)
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
 
     //MARK - Clock configuration
@@ -152,14 +152,14 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
     func configureWatchface() {
         // TODO abstract this into a separate file for styling the clock
         clock.enableShadows = true
-        clock.faceBackgroundColor = UIColor.clearColor()
+        clock.faceBackgroundColor = UIColor.clear
         clock.secondHandLength = 0.38 * clock.frame.width
         clock.minuteHandLength = 0.32 * clock.frame.width
         clock.hourHandLength = 0.175 * clock.frame.width
         clock.reloadClock()
     }
 
-    func analogClock(clock: BEMAnalogClockView!, graduationLengthForIndex index: Int) -> CGFloat {
+    func analogClock(_ clock: BEMAnalogClockView!, graduationLengthFor index: Int) -> CGFloat {
         if index % 15 == 0 {
             return 30
         } else if index % 5 == 0 {
@@ -173,30 +173,30 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
 
     func clockLoadingTick() {
         if clockLoadingAnimationActive {
-            clockStartDate = clockStartDate.dateByAddingTimeInterval(-30)
+            clockStartDate = clockStartDate.addingTimeInterval(-30)
 
-            let calendar = NSCalendar(identifier: NSCalendarIdentifierGregorian)!
-            let components = calendar.components([.Hour, .Minute, .Second], fromDate: clockStartDate)
+            let calendar = Calendar(identifier: Calendar.Identifier.gregorian)
+            let components = (calendar as NSCalendar).components([.hour, .minute, .second], from: clockStartDate)
 
-            clock.hours = components.hour
-            clock.minutes = components.minute
-            clock.seconds = components.second
-            clock.updateTimeAnimated(false)
+            clock.hours = components.hour!
+            clock.minutes = components.minute!
+            clock.seconds = components.second!
+            clock.updateTime(animated: false)
 
-            self.performSelector(#selector(ViewController.clockLoadingTick), withObject: nil, afterDelay: 0.01)
+            self.perform(#selector(ViewController.clockLoadingTick), with: nil, afterDelay: 0.01)
         } else {
             clock.hours = 12
             clock.minutes = 0
             clock.seconds = 0
-            clock.updateTimeAnimated(true)
+            clock.updateTime(animated: true)
 
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.7 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(0.7 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) {
                 self.clock.secondHandAlpha = 1.0
                 self.clock.currentTime = true
                 self.clock.realTime = true
                 self.clock.reloadClock()
                 
-                UIView.animateWithDuration(1.5, animations: { () -> Void in
+                UIView.animate(withDuration: 1.5, animations: { () -> Void in
                     self.chart.alpha = 1.0
                 })
             }
@@ -206,16 +206,16 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
 
     //MARK: - Actions
 
-    @IBAction func buttonRefreshTapped(sender: AnyObject) {
-        buttonRefresh.hidden = true
+    @IBAction func buttonRefreshTapped(_ sender: AnyObject) {
+        buttonRefresh.isHidden = true
         self.activityIndicator.startAnimating()
         
-        UIView.animateWithDuration(1.0, animations: { () -> Void in
+        UIView.animate(withDuration: 1.0, animations: { () -> Void in
             self.clock.alpha = 0.0
             self.chart.alpha = 0.0
-            }) { (done) -> Void in
+            }, completion: { (done) -> Void in
                 self.refreshForecast()
-        }
+        }) 
     }
 
     // MARK: - Forecast
@@ -229,9 +229,9 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
         clock.reloadClock()
 
         if clockDisplayedToken {
-            UIView.animateWithDuration(2.5) { () -> Void in
+            UIView.animate(withDuration: 2.5, animations: { () -> Void in
                 self.clock.alpha = 1.0
-            }
+            }) 
         }
 
         clockLoadingTick()
@@ -244,27 +244,27 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
         forecastClient.units = .SI
         forecastClient.getForecast(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude) { (currentForecast, error) -> Void in
             if error != nil {
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    let okButton = UIAlertAction(title: "OK", style: .Default, handler: nil)
-                    let alert = UIAlertController(title: "Weather data error", message: "An error has occured while trying fetch weather data. Please try again later.", preferredStyle: .Alert)
+                DispatchQueue.main.async(execute: { () -> Void in
+                    let okButton = UIAlertAction(title: "OK", style: .default, handler: nil)
+                    let alert = UIAlertController(title: "Weather data error", message: "An error has occured while trying fetch weather data. Please try again later.", preferredStyle: .alert)
                     alert.addAction(okButton)
-                    self.presentViewController(alert, animated: true, completion: nil)
+                    self.present(alert, animated: true, completion: nil)
 
-                    self.buttonRefresh.hidden = false
+                    self.buttonRefresh.isHidden = false
                     self.activityIndicator.stopAnimating()
                 })
             } else {
 //                print(currentForecast)
 
                 self.forecast = currentForecast
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                DispatchQueue.main.async(execute: { () -> Void in
                     self.updateInfo()
                     self.clockLoadingAnimationActive = false
                     if let currentForecast = currentForecast {
                         self.adjustDesignToWeather(currentForecast)
                     }
                     
-                    self.buttonRefresh.hidden = false
+                    self.buttonRefresh.isHidden = false
                     self.activityIndicator.stopAnimating()
                 })
             }
@@ -294,27 +294,27 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
     //MARK: - Location
 
     func locateUser() {
-        INTULocationManager.sharedInstance().requestLocationWithDesiredAccuracy(.Neighborhood, timeout: 5, delayUntilAuthorized: true) { (location, accuracy, status) -> Void in
+        INTULocationManager.sharedInstance().requestLocation(withDesiredAccuracy: .neighborhood, timeout: 5, delayUntilAuthorized: true) { (location, accuracy, status) -> Void in
             switch status {
-            case .Success:
+            case .success:
                 self.location = location
                 self.fetchForecast()
                 self.fetchGeoData()
-            case .ServicesDenied, .ServicesDisabled, .ServicesNotDetermined, .ServicesRestricted:
-                let okButton = UIAlertAction(title: "OK", style: .Default, handler: nil)
-                let alert = UIAlertController(title: "Location unavailable", message: "Please ensure that location service is available for Lucid Weather Clock in Settings. We are unable to show you the weather for now.", preferredStyle: .Alert)
+            case .servicesDenied, .servicesDisabled, .servicesNotDetermined, .servicesRestricted:
+                let okButton = UIAlertAction(title: "OK", style: .default, handler: nil)
+                let alert = UIAlertController(title: "Location unavailable", message: "Please ensure that location service is available for Lucid Weather Clock in Settings. We are unable to show you the weather for now.", preferredStyle: .alert)
                 alert.addAction(okButton)
-                self.presentViewController(alert, animated: true, completion: nil)
+                self.present(alert, animated: true, completion: nil)
 
-                self.buttonRefresh.hidden = false
+                self.buttonRefresh.isHidden = false
                 self.activityIndicator.stopAnimating()
-            case .Error:
-                let okButton = UIAlertAction(title: "OK", style: .Default, handler: nil)
-                let alert = UIAlertController(title: "Location error", message: "An error has occured while trying to determine your location. Please try again later.", preferredStyle: .Alert)
+            case .error:
+                let okButton = UIAlertAction(title: "OK", style: .default, handler: nil)
+                let alert = UIAlertController(title: "Location error", message: "An error has occured while trying to determine your location. Please try again later.", preferredStyle: .alert)
                 alert.addAction(okButton)
-                self.presentViewController(alert, animated: true, completion: nil)
+                self.present(alert, animated: true, completion: nil)
 
-                self.buttonRefresh.hidden = false
+                self.buttonRefresh.isHidden = false
                 self.activityIndicator.stopAnimating()
             default:
                 break
@@ -340,7 +340,7 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
 
     //MARK: - Design
 
-    func adjustDesignToWeather(forecast: Forecast) {
+    func adjustDesignToWeather(_ forecast: Forecast) {
         if let temp = forecast.currently?.apparentTemperature {
             print(temp)
 
@@ -348,7 +348,7 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
 
             // color
             let color = ColorManager.convertTemperatureToColor(temp)
-            UIView.animateWithDuration(1.0, animations: { () -> Void in
+            UIView.animate(withDuration: 1.0, animations: { () -> Void in
                 self.view.backgroundColor = color.toUIColor
             })
         }
@@ -356,7 +356,7 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
         showForecastBest()
     }
     
-    func showPieData(data: [DataPoint], minutely: Bool = true) {
+    func showPieData(_ data: [DataPoint], minutely: Bool = true) {
         var forecastData = [ForecastDataEntry]()
         
         for unitData in data {
@@ -367,12 +367,11 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
             var timeUnit: Int = 0
             var precipIntensity: Float = 0
             var precipProbability: Float = 0
-            
-            let components = NSCalendar.currentCalendar().components([.Hour, .Minute], fromDate: unitData.time)
+            let components = NSCalendar.current.dateComponents([.hour, .minute], from: unitData.time)
             if minutely {
-                timeUnit = components.minute
+                timeUnit = components.minute!
             } else {
-                timeUnit = components.hour
+                timeUnit = components.hour!
                 if timeUnit > 12 {
                     timeUnit -= 12
                 }
@@ -396,7 +395,7 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
             forecastData.append(ForecastDataEntry(timeUnit: timeUnit, precipIntensity: precipIntensity, precipProbability: precipProbability))
         }
         
-        forecastData.sortInPlace { $0.timeUnit < $1.timeUnit }
+        forecastData.sort { $0.timeUnit < $1.timeUnit }
         
         var yVals = [ChartDataEntry]()
         var colors = [UIColor]()
@@ -404,10 +403,10 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
         let sliceSize: Double = minutely ? 6/360 : 30/360
         for forecastEntry in forecastData {
             yVals.append(ChartDataEntry(value: sliceSize, xIndex: forecastEntry.timeUnit, data: Double(forecastEntry.precipIntensity)))
-            colors.append(UIColor.whiteColor().colorWithAlphaComponent(CGFloat(forecastEntry.precipProbability)))
+            colors.append(UIColor.white.withAlphaComponent(CGFloat(forecastEntry.precipProbability)))
         }
         
-        let set = PieChartDataSet(yVals: yVals)
+        let set = PieChartDataSet(yVals: yVals, label: "")
         set.colors = colors
         set.drawValuesEnabled = false
         
@@ -423,13 +422,13 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
 
     func updateInfo() {
         if let time = forecast?.currently?.time {
-            let dateFormatter = NSDateFormatter()
+            let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "H:mm"
 
-            labelInfo.text = "Last updated: \(dateFormatter.stringFromDate(time))"
+            labelInfo.text = "Last updated: \(dateFormatter.string(from: time))"
 
             if let place = placemark {
-                if let locality = place.locality, thoroughfare = place.thoroughfare {
+                if let locality = place.locality, let thoroughfare = place.thoroughfare {
                     labelInfo.text = "\(labelInfo.text!) @ \(thoroughfare), \(locality)"
                 } else if let locality = place.locality {
                     labelInfo.text = "\(labelInfo.text!) @ \(locality)"
@@ -450,34 +449,34 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
         if let context = UIGraphicsGetCurrentContext() {
             // background color
             view.backgroundColor?.set()
-            CGContextFillRect(UIGraphicsGetCurrentContext(), CGRect(origin: CGPointZero, size: imageSize))
+            UIGraphicsGetCurrentContext()?.fill(CGRect(origin: CGPoint.zero, size: imageSize))
             
             // temperature label
             var offsetX = (imageSize.width - labelTemperature.bounds.size.width)/2
             var offsetY = imageSize.height * 0.13 - labelTemperature.bounds.size.height/2
-            CGContextTranslateCTM(context, offsetX, offsetY)
-            labelTemperature.layer.renderInContext(context)
-            CGContextTranslateCTM(context, -offsetX, -offsetY)
+            context.translateBy(x: offsetX, y: offsetY)
+            labelTemperature.layer.render(in: context)
+            context.translateBy(x: -offsetX, y: -offsetY)
             
             // chart and clock
             offsetX = imageSize.width * 0.08
             offsetY = imageSize.height * 0.2
-            CGContextTranslateCTM(context, offsetX, offsetY)
-            chart.layer.renderInContext(context)
-            clock.layer.renderInContext(context)
-            CGContextTranslateCTM(context, -offsetX, -offsetY)
+            context.translateBy(x: offsetX, y: offsetY)
+            chart.layer.render(in: context)
+            clock.layer.render(in: context)
+            context.translateBy(x: -offsetX, y: -offsetY)
             
             // copyright label
             let copyrightLabel = UILabel(frame: CGRect(x: 0, y: 0, width: imageSize.width, height: 10))
             copyrightLabel.font = UIFont(name: labelTemperature.font.familyName, size: 8.0)
-            copyrightLabel.textColor = UIColor.whiteColor()
-            copyrightLabel.textAlignment = .Center
+            copyrightLabel.textColor = UIColor.white
+            copyrightLabel.textAlignment = .center
             copyrightLabel.text = "brought by Lucid Weather Clock, data by Forecast.io"
             offsetX = 0.0
             offsetY = imageSize.height * 0.98 - copyrightLabel.bounds.size.height/2
-            CGContextTranslateCTM(context, offsetX, offsetY)
-            copyrightLabel.layer.renderInContext(context)
-            CGContextTranslateCTM(context, -offsetX, -offsetY)
+            context.translateBy(x: offsetX, y: offsetY)
+            copyrightLabel.layer.render(in: context)
+            context.translateBy(x: -offsetX, y: -offsetY)
             
             image = UIGraphicsGetImageFromCurrentImageContext()
         }
@@ -493,7 +492,7 @@ class ViewController: UIViewController, BEMAnalogClockDelegate {
                 location = " @ \(locality)"
             }
             let activityVC = UIActivityViewController(activityItems: ["Current precipation\(location) brought by @LucidWeatherClock", image], applicationActivities: nil)
-            presentViewController(activityVC, animated: true, completion: nil)
+            present(activityVC, animated: true, completion: nil)
         }
     }
 }
