@@ -13,6 +13,15 @@
 		4F8E22241C15D3160083245B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F8E22221C15D3160083245B /* Main.storyboard */; };
 		4F8E22261C15D3160083245B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F8E22251C15D3160083245B /* Assets.xcassets */; };
 		4F8E22291C15D3160083245B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F8E22271C15D3160083245B /* LaunchScreen.storyboard */; };
+		5B2FAD901DA4377A006FAB46 /* ClockConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2FAD891DA4377A006FAB46 /* ClockConfigurator.swift */; };
+		5B2FAD911DA4377A006FAB46 /* ClockInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2FAD8A1DA4377A006FAB46 /* ClockInteractor.swift */; };
+		5B2FAD921DA4377A006FAB46 /* ClockModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2FAD8B1DA4377A006FAB46 /* ClockModels.swift */; };
+		5B2FAD931DA4377A006FAB46 /* ClockPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2FAD8C1DA4377A006FAB46 /* ClockPresenter.swift */; };
+		5B2FAD941DA4377A006FAB46 /* ClockRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2FAD8D1DA4377A006FAB46 /* ClockRouter.swift */; };
+		5B2FAD951DA4377A006FAB46 /* ClockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2FAD8E1DA4377A006FAB46 /* ClockViewController.swift */; };
+		5B2FAD9A1DA4384F006FAB46 /* WeatherWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2FAD991DA4384F006FAB46 /* WeatherWorker.swift */; };
+		5B2FAD9D1DA43862006FAB46 /* LocationWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2FAD9C1DA43862006FAB46 /* LocationWorker.swift */; };
+		5B2FAD9F1DA43877006FAB46 /* ColorWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2FAD9E1DA43877006FAB46 /* ColorWorker.swift */; };
 		5B6D54DB1C17A7BA00766ECB /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6D54DA1C17A7BA00766ECB /* ColorManager.swift */; };
 		DB5F4BE2FD04DDBA0D707384 /* Pods_Lucid_Weather_Clock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B4B6EC178CE22382A551A92 /* Pods_Lucid_Weather_Clock.framework */; };
 /* End PBXBuildFile section */
@@ -28,6 +37,15 @@
 		4F8E22281C15D3160083245B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4F8E222A1C15D3160083245B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4F8E22341C15E1190083245B /* Lucid Weather Clock-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Lucid Weather Clock-Bridging-Header.h"; sourceTree = "<group>"; };
+		5B2FAD891DA4377A006FAB46 /* ClockConfigurator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ClockConfigurator.swift; path = Scenes/Clock/ClockConfigurator.swift; sourceTree = "<group>"; };
+		5B2FAD8A1DA4377A006FAB46 /* ClockInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ClockInteractor.swift; path = Scenes/Clock/ClockInteractor.swift; sourceTree = "<group>"; };
+		5B2FAD8B1DA4377A006FAB46 /* ClockModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ClockModels.swift; path = Scenes/Clock/ClockModels.swift; sourceTree = "<group>"; };
+		5B2FAD8C1DA4377A006FAB46 /* ClockPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ClockPresenter.swift; path = Scenes/Clock/ClockPresenter.swift; sourceTree = "<group>"; };
+		5B2FAD8D1DA4377A006FAB46 /* ClockRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ClockRouter.swift; path = Scenes/Clock/ClockRouter.swift; sourceTree = "<group>"; };
+		5B2FAD8E1DA4377A006FAB46 /* ClockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ClockViewController.swift; path = Scenes/Clock/ClockViewController.swift; sourceTree = "<group>"; };
+		5B2FAD991DA4384F006FAB46 /* WeatherWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WeatherWorker.swift; path = Workers/WeatherWorker.swift; sourceTree = "<group>"; };
+		5B2FAD9C1DA43862006FAB46 /* LocationWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationWorker.swift; path = Workers/LocationWorker.swift; sourceTree = "<group>"; };
+		5B2FAD9E1DA43877006FAB46 /* ColorWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColorWorker.swift; path = Workers/ColorWorker.swift; sourceTree = "<group>"; };
 		5B6D54DA1C17A7BA00766ECB /* ColorManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorManager.swift; sourceTree = "<group>"; };
 		72C0DB4C9ECEE3D8E8107BA6 /* Pods-Lucid Weather Clock.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lucid Weather Clock.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Lucid Weather Clock/Pods-Lucid Weather Clock.debug.xcconfig"; sourceTree = "<group>"; };
 		81157A77C30C886DADFD0B3A /* Pods-Lucid Weather Clock.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lucid Weather Clock.release.xcconfig"; path = "Pods/Target Support Files/Pods-Lucid Weather Clock/Pods-Lucid Weather Clock.release.xcconfig"; sourceTree = "<group>"; };
@@ -67,16 +85,73 @@
 			isa = PBXGroup;
 			children = (
 				4F8E221E1C15D3160083245B /* AppDelegate.swift */,
-				4F8E22201C15D3160083245B /* ViewController.swift */,
-				5B6D54DA1C17A7BA00766ECB /* ColorManager.swift */,
-				4F56B4861C1AFE2C003687AC /* ForecastDataEntry.swift */,
 				4F8E22221C15D3160083245B /* Main.storyboard */,
+				5B2FAD9B1DA43853006FAB46 /* Workers */,
+				5B2FAD981DA43784006FAB46 /* Scenes */,
+				5B2FADA01DA438B7006FAB46 /* Resources */,
+				5B2FADA11DA438CA006FAB46 /* Supporting Files */,
+				5B2FADA21DA438DA006FAB46 /* Other - to remove */,
+			);
+			path = "Lucid Weather Clock";
+			sourceTree = "<group>";
+		};
+		5B2FAD971DA4377F006FAB46 /* Clock */ = {
+			isa = PBXGroup;
+			children = (
+				5B2FAD891DA4377A006FAB46 /* ClockConfigurator.swift */,
+				5B2FAD8A1DA4377A006FAB46 /* ClockInteractor.swift */,
+				5B2FAD8B1DA4377A006FAB46 /* ClockModels.swift */,
+				5B2FAD8C1DA4377A006FAB46 /* ClockPresenter.swift */,
+				5B2FAD8D1DA4377A006FAB46 /* ClockRouter.swift */,
+				5B2FAD8E1DA4377A006FAB46 /* ClockViewController.swift */,
+			);
+			name = Clock;
+			sourceTree = "<group>";
+		};
+		5B2FAD981DA43784006FAB46 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				5B2FAD971DA4377F006FAB46 /* Clock */,
+			);
+			name = Scenes;
+			sourceTree = "<group>";
+		};
+		5B2FAD9B1DA43853006FAB46 /* Workers */ = {
+			isa = PBXGroup;
+			children = (
+				5B2FAD991DA4384F006FAB46 /* WeatherWorker.swift */,
+				5B2FAD9C1DA43862006FAB46 /* LocationWorker.swift */,
+				5B2FAD9E1DA43877006FAB46 /* ColorWorker.swift */,
+			);
+			name = Workers;
+			sourceTree = "<group>";
+		};
+		5B2FADA01DA438B7006FAB46 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
 				4F8E22251C15D3160083245B /* Assets.xcassets */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		5B2FADA11DA438CA006FAB46 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
 				4F8E22271C15D3160083245B /* LaunchScreen.storyboard */,
 				4F8E222A1C15D3160083245B /* Info.plist */,
 				4F8E22341C15E1190083245B /* Lucid Weather Clock-Bridging-Header.h */,
 			);
-			path = "Lucid Weather Clock";
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		5B2FADA21DA438DA006FAB46 /* Other - to remove */ = {
+			isa = PBXGroup;
+			children = (
+				4F8E22201C15D3160083245B /* ViewController.swift */,
+				5B6D54DA1C17A7BA00766ECB /* ColorManager.swift */,
+				4F56B4861C1AFE2C003687AC /* ForecastDataEntry.swift */,
+			);
+			name = "Other - to remove";
 			sourceTree = "<group>";
 		};
 		659BCFF289772940AE9416AD /* Pods */ = {
@@ -220,8 +295,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B6D54DB1C17A7BA00766ECB /* ColorManager.swift in Sources */,
+				5B2FAD911DA4377A006FAB46 /* ClockInteractor.swift in Sources */,
+				5B2FAD901DA4377A006FAB46 /* ClockConfigurator.swift in Sources */,
+				5B2FAD9F1DA43877006FAB46 /* ColorWorker.swift in Sources */,
+				5B2FAD951DA4377A006FAB46 /* ClockViewController.swift in Sources */,
+				5B2FAD931DA4377A006FAB46 /* ClockPresenter.swift in Sources */,
 				4F56B4871C1AFE2C003687AC /* ForecastDataEntry.swift in Sources */,
 				4F8E22211C15D3160083245B /* ViewController.swift in Sources */,
+				5B2FAD9A1DA4384F006FAB46 /* WeatherWorker.swift in Sources */,
+				5B2FAD921DA4377A006FAB46 /* ClockModels.swift in Sources */,
+				5B2FAD941DA4377A006FAB46 /* ClockRouter.swift in Sources */,
+				5B2FAD9D1DA43862006FAB46 /* LocationWorker.swift in Sources */,
 				4F8E221F1C15D3160083245B /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
